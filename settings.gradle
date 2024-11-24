@@ -1,2 +1,3 @@
 rootProject.name = 'Cloud-App'
+include 'Sub-Cloud-App'
 

@@ -1,0 +1,10 @@
+spring:
+  security:
+    user:
+      name: Prabakaran
+      password: narakabarp
+
+server:
+  port: 9080
+  servlet:
+    context-path: /api
