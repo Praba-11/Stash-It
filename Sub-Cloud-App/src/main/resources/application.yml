@@ -4,6 +4,13 @@ spring:
       name: Prabakaran
       password: narakabarp
 
+  datasource:
+    url: jdbc:postgresql://localhost:8080/cloud-app
+    username: cloudapp
+    password: cloudapp
+    driver-class-name: org.postgresql.Driver
+
+
 server:
   port: 9080
   servlet:

@@ -25,6 +25,9 @@ dependencies {
     // Postgres
     implementation('org.postgresql:postgresql:42.7.1')
 
+    // MyBatis
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
+
     // Junit
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
