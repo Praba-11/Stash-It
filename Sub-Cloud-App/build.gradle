@@ -14,23 +14,33 @@ repositories {
 dependencies {
 
     // Lombok
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     // Spring
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
     // Postgres
-    implementation('org.postgresql:postgresql:42.7.1')
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation 'org.postgresql:postgresql:42.7.4'
+
 
     // MyBatis
+    // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter/3.0.3
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 
     // Junit
+    // https://mvnrepository.com/artifact/org.junit/junit-bom/5.10.0
     testImplementation platform('org.junit:junit-bom:5.10.0')
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // Microsoft Spring Cloud Azure Storage Blob
+    // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage-blob
+    implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob:5.18.0'
+
 }
 
 test {
