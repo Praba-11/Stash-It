@@ -3,15 +3,18 @@ spring:
     user:
       name: Prabakaran
       password: narakabarp
+  disable: true
 
   datasource:
-    url: jdbc:postgresql://localhost:8080/cloud-app
-    username: cloudapp
-    password: cloudapp
+    url: jdbc:postgresql://localhost:5431/cloudapp
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
-
+    hikari:
+      connection-timeout: 30000  # 30 seconds
+      maximum-pool-size: 10
 
 server:
   port: 9080
   servlet:
-    context-path: /api
+    context-path: /aps
