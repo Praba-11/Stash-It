@@ -3,7 +3,18 @@ spring:
     user:
       name: Prabakaran
       password: narakabarp
-  disable: true
+
+  cloud:
+    azure:
+      key-vault:
+        uri: ${AZURE_KEY_VAULT_URI:YOUR_KEY_VAULT_URI} # Azure Key Vault URI
+      storage:
+        connection-string: ${AZURE_STORAGE_ACCOUNT_CONNECTION_STRING:YOUR_STORAGE_ACCOUNT_CONNECTION_STRING} # Azure Storage Account Connection String
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 
   datasource:
     url: jdbc:postgresql://localhost:5431/cloudapp
