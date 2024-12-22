@@ -1,7 +1,6 @@
-package example.service;
+package heroic.vault.service;
 
-import example.dao.DAO;
-import example.mapper.Mapper;
+import heroic.vault.dao.DAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service

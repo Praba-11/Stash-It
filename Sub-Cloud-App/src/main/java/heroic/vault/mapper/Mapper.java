@@ -5,7 +5,7 @@
  *
  * <p>Proprietary and confidential.
  */
-package example.mapper;
+package heroic.vault.mapper;
 
 import org.apache.ibatis.annotations.Select;
 

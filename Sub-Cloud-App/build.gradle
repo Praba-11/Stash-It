@@ -41,6 +41,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage-blob
     implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob:5.18.0'
 
+    // Microsoft Azure Resource Manager SDK
+    // https://mvnrepository.com/artifact/com.azure.resourcemanager/azure-resourcemanager-resources
+    implementation 'com.azure.resourcemanager:azure-resourcemanager-resources:2.45.0'
+
+
 }
 
 test {
