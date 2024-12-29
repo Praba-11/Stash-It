@@ -1,3 +1,8 @@
 rootProject.name = 'Cloud-App'
 include 'Sub-Cloud-App'
+include 'commons'
+include 'commons:exceptions'
+findProject(':commons:exceptions')?.name = 'exceptions'
+include 'commons:exceptions:cloud'
+findProject(':commons:exceptions:cloud')?.name = 'cloud'
 
