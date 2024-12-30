@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    archiveFileName = 'files-vault-app.jar'  // Set the desired name for the JAR file
+}
+
 dependencies {
 
     implementation project(':commons:exceptions:cloud')
