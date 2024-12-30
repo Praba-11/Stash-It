@@ -63,5 +63,6 @@ jobs:
         with:
           app-name: 'files-vault-app'
           slot-name: 'Production'
-          package: './java-app/*.jar'
+          package: '${{ github.workspace }}/java-app/*.jar'
+          
           
