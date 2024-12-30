@@ -29,9 +29,9 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build --stacktrace
 
-      # Step 5: List all files in the build directory (Debugging step)
-      - name: List all files in the build directory
-        run: find ${GITHUB_WORKSPACE}/build -name "*.jar"
+      # Step 5: List files in build/libs before upload (Debugging step)
+      - name: List files in build/libs before upload
+        run: ls -alh ${GITHUB_WORKSPACE}/build/libs
 
       # Step 6: Upload the artifact for deployment job
       - name: Upload artifact for deployment job
