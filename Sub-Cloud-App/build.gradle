@@ -11,19 +11,6 @@ repositories {
     mavenCentral()
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['java.heroic.vault']
-        }
-    }
-}
-
-
-springBoot {
-    mainClass = 'java.heroic.vault.Application' // Replace with your actual main class
-}
-
 dependencies {
 
     implementation project(':commons:exceptions:cloud')
