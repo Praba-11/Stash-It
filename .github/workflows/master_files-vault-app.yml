@@ -11,29 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
+      # Checkout repository
       - uses: actions/checkout@v4
 
-      # Step 2: Set up Java version
+      # Set up Java version
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
 
-      # Step 3: Grant execute permissions for Gradle Wrapper
+      # Grant execute permissions for Gradle Wrapper
       - name: Grant execute permissions for Gradle Wrapper
         run: chmod +x gradlew
 
-      # Step 4: Build the project with Gradle (with stacktrace for debugging)
+      # Build with Gradle
       - name: Build with Gradle
         run: ./gradlew build --stacktrace
 
-      # Step 5: List all files in the workspace (Debugging step)
-      - name: List all files in the workspace (Debugging)
-        run: find ${GITHUB_WORKSPACE} -type f
+      # Debugging: List files in build/libs
+      - name: List files in build/libs after build
+        run: ls -alh ${GITHUB_WORKSPACE}/build/libs
 
-      # Step 6: Upload the artifact for deployment job
+      # Upload artifact for deployment job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -42,7 +42,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build  # Ensures deploy runs only after build job completes successfully
+    needs: build  # Ensure deploy runs after build job completes
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
@@ -50,17 +50,17 @@ jobs:
       id-token: write  # This is required for requesting the JWT
 
     steps:
-      # Step 1: Download the artifact from the build job
+      # Download artifact from build job
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
 
-      # Step 2: Debugging step to list files in the downloaded artifact folder
+      # Debugging: List downloaded files to ensure the artifact is available
       - name: List downloaded files (Debugging step)
         run: ls -alh ${{ github.workspace }}/java-app
 
-      # Step 3: Login to Azure
+      # Login to Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -68,11 +68,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2F0B677099F846F788E5E90FCAC51589 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_54B137CAA492463EB72BB22B57BC5FD5 }}
 
-      # Step 4: Deploy the app to Azure Web App
+      # Deploy to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'files-vault-app'
           slot-name: 'Production'
-          package: './java-app/*.jar'  # Ensure the correct path for the downloaded artifact
+          package: './java-app/*.jar'
