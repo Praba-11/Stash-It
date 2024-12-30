@@ -12,7 +12,7 @@ repositories {
 }
 
 springBoot {
-    mainClass.set("java/heroic/vault/Application.java")  // Replace with the fully qualified class name of your main class
+    mainClass = 'java.heroic.vault.Application' // Replace with your actual main class
 }
 
 dependencies {
