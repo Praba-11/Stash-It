@@ -11,6 +11,17 @@ repositories {
     mavenCentral()
 }
 
+// Disable bootJar as this module is not intended to produce a runnable JAR.
+tasks.named('bootJar') {
+    enabled = false
+}
+
+// Disable jar task to prevent building a standard JAR for this module.
+tasks.named('jar') {
+    enabled = false
+}
+
+
 dependencies {
 
     // Lombok
