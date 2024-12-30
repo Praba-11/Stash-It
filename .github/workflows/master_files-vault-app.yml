@@ -25,15 +25,19 @@ jobs:
       - name: Grant execute permissions for Gradle Wrapper
         run: chmod +x gradlew
 
-      # Step 4: Build the project with Gradle
+      # Step 4: Build the project with Gradle (with stacktrace for debugging)
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace
 
-      # Step 5: Debugging step to list files in the build/libs directory
+      # Step 5: List files in the project directory (Debugging step)
+      - name: List files in the project directory (Debugging step)
+        run: ls -alh ${GITHUB_WORKSPACE}
+
+      # Step 6: List build/libs directory (if it exists)
       - name: List build/libs directory (Debugging step)
-        run: ls -alh ${GITHUB_WORKSPACE}/build/libs
+        run: ls -alh ${GITHUB_WORKSPACE}/build/libs || echo "No build/libs directory found"
 
-      # Step 6: Upload the artifact for the deployment job
+      # Step 7: Upload the artifact for the deployment job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
