@@ -12,7 +12,8 @@ repositories {
 }
 
 jar {
-    archiveFileName = 'files-vault-app.jar'  // Set the desired name for the JAR file
+    archiveFileName = 'files-vault-app.jar'  // Name of the JAR file
+    destinationDirectory = file("$buildDir/libs")  // This is the directory where the JAR will be placed
 }
 
 dependencies {
