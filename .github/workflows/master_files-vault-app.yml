@@ -25,15 +25,19 @@ jobs:
       - name: Grant execute permissions for Gradle Wrapper
         run: chmod +x gradlew
 
-      # Build with Gradle
+      # Build with Gradle (with stacktrace to capture more detailed errors)
       - name: Build with Gradle
         run: ./gradlew build --stacktrace
 
-      # Debugging: List files in build/libs
+      # Debugging: List files in build/ directory
+      - name: List files in build directory after build
+        run: ls -alh ${GITHUB_WORKSPACE}/build
+
+      # Debugging: List files in build/libs directory
       - name: List files in build/libs after build
         run: ls -alh ${GITHUB_WORKSPACE}/build/libs
 
-      # Upload artifact for deployment job
+      # Upload artifact for deployment job (only if the JAR is present)
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
