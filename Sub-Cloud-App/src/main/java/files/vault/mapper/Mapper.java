@@ -1,4 +1,4 @@
-package heroic.vault.mapper;
+package files.vault.mapper;
 
 import org.apache.ibatis.annotations.Select;
 

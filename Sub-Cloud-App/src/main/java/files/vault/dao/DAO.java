@@ -1,6 +1,6 @@
-package heroic.vault.dao;
+package files.vault.dao;
 
-import heroic.vault.mapper.Mapper;
+import files.vault.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

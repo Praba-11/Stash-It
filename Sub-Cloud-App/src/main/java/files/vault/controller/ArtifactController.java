@@ -1,6 +1,6 @@
-package heroic.vault.controller;
+package files.vault.controller;
 
-import heroic.vault.client.azure.storage.blob.ImageStorageClient;
+import files.vault.client.azure.storage.blob.ImageStorageClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,8 +1,8 @@
-package heroic.vault.config;
+package files.vault.config;
 
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
-import heroic.vault.config.value.ConfigValues;
+import files.vault.config.value.ConfigValues;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +17,7 @@ public class AppConfiguration {
 
     @Bean
     public BlobServiceClient blobServiceClient() {
+
         return new BlobServiceClientBuilder()
                 .connectionString(configValues.getConnectionString())
                 .buildClient();

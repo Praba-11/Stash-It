@@ -1,4 +1,4 @@
-package heroic.vault.config.value;
+package files.vault.config.value;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
