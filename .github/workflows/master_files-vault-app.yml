@@ -59,6 +59,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: java-app
+          path: ${{ github.workspace }}/java-app
 
       # Debugging: List downloaded files to ensure the artifact is available
       - name: List downloaded files (Debugging step)
