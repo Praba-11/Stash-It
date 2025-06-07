@@ -78,6 +78,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'files-vault-app'
+          app-name: 'files-vault'
           slot-name: 'Production'
           package: '${{ github.workspace }}/java-app/*.jar'
