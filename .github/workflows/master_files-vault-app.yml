@@ -21,14 +21,11 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
-      # Grant execute permissions for Gradle Wrapper
       - name: Grant execute permissions for Gradle Wrapper
-        run: chmod +x ../gradlew
+        run: chmod +x gradlew
 
-      # Build with Gradle from the correct subdirectory
-      - name: Build with Gradle
-        working-directory: Sub-Cloud-App
-        run: ./gradlew build --stacktrace
+      - name: Build Sub-Cloud-App with Gradle
+        run: ./gradlew :Sub-Cloud-App:build --stacktrace
 
       # Debugging: List files in build/libs directory
       - name: List files in Sub-Cloud-App build/libs directory after build
