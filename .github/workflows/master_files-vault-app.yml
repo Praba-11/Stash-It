@@ -23,7 +23,7 @@ jobs:
 
       # Grant execute permissions for Gradle Wrapper
       - name: Grant execute permissions for Gradle Wrapper
-        run: chmod +x gradlew
+        run: chmod +x ../gradlew
 
       # Build with Gradle from the correct subdirectory
       - name: Build with Gradle
