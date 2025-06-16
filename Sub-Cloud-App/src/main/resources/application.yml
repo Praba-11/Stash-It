@@ -9,8 +9,7 @@ spring:
       key-vault:
         secret:
           property-sources[0]:
-            endpoint: ${AZURE_KEY_VAULT_ENDPOINT}
-        uri: ${AZURE_KEY_VAULT_URI:YOUR_KEY_VAULT_URI} # Azure Key Vault URI
+            endpoint: ${AZURE_KEY_VAULT_ENDPOINT} # Endpoint URL to connect the Azure Key Vault
       storage:
         connection-string: ${AZURE_STORAGE_ACCOUNT_CONNECTION_STRING:YOUR_STORAGE_ACCOUNT_CONNECTION_STRING} # Azure Storage Account Connection String
 
