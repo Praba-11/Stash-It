@@ -48,9 +48,13 @@ dependencies {
     // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage-blob
     implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob:5.18.0'
 
-    // Microsoft Azure Resource Manager SDK
+    // Microsoft Azure Resource Manager
     // https://mvnrepository.com/artifact/com.azure.resourcemanager/azure-resourcemanager-resources
     implementation 'com.azure.resourcemanager:azure-resourcemanager-resources:2.45.0'
+
+    // Microsoft Azure Key Vault Starter
+    // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-keyvault-secrets
+    implementation("com.azure.spring:spring-cloud-azure-starter-keyvault-secrets:6.0.0-beta.4")
 
 
 }

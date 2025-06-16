@@ -7,6 +7,9 @@ spring:
   cloud:
     azure:
       key-vault:
+        secret:
+          property-sources[0]:
+            endpoint: ${AZURE_KEY_VAULT_ENDPOINT}
         uri: ${AZURE_KEY_VAULT_URI:YOUR_KEY_VAULT_URI} # Azure Key Vault URI
       storage:
         connection-string: ${AZURE_STORAGE_ACCOUNT_CONNECTION_STRING:YOUR_STORAGE_ACCOUNT_CONNECTION_STRING} # Azure Storage Account Connection String
@@ -17,10 +20,9 @@ spring:
       max-request-size: 100MB
 
   datasource:
-    url: jdbc:postgresql://localhost:5431/cloudapp
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: ${datasource-url} # JDBC url to connect database (Fetched from Key Vault)
+    username: ${datasource-username} # Database username (Fetched from Key Vault)
+    password: ${datasource-password} # Database password (Fetched from Key Vault)
     hikari:
       connection-timeout: 30000  # 30 seconds
       maximum-pool-size: 10
