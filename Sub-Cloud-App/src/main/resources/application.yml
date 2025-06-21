@@ -6,10 +6,10 @@ spring:
 
   cloud:
     azure:
-      key-vault:
-        secret:
-          property-sources[0]:
-            endpoint: ${AZURE_KEY_VAULT_ENDPOINT} # Endpoint URL to connect the Azure Key Vault
+#      key-vault:
+#        secret:
+#          property-sources[0]:
+#            endpoint: ${AZURE_KEY_VAULT_ENDPOINT} # Endpoint URL to connect the Azure Key Vault
       storage:
         connection-string: ${AZURE_STORAGE_ACCOUNT_CONNECTION_STRING} # Azure Storage Account Connection String
 
@@ -18,13 +18,13 @@ spring:
       max-file-size: 10MB
       max-request-size: 100MB
 
-  datasource:
-    url: ${datasource-url} # JDBC url to connect database (Fetched from Key Vault)
-    username: ${datasource-username} # Database username (Fetched from Key Vault)
-    password: ${datasource-password} # Database password (Fetched from Key Vault)
-    hikari:
-      connection-timeout: 30000  # 30 seconds
-      maximum-pool-size: 10
+#  datasource:
+#    url: ${datasource-url} # JDBC url to connect database (Fetched from Key Vault)
+#    username: ${datasource-username} # Database username (Fetched from Key Vault)
+#    password: ${datasource-password} # Database password (Fetched from Key Vault)
+#    hikari:
+#      connection-timeout: 30000  # 30 seconds
+#      maximum-pool-size: 10
 
 server:
   port: 9080

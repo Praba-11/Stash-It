@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Sub-Cloud-App" />
+            <option value="$PROJECT_DIR$/UI" />
             <option value="$PROJECT_DIR$/commons" />
             <option value="$PROJECT_DIR$/commons/exceptions" />
             <option value="$PROJECT_DIR$/commons/exceptions/cloud" />
