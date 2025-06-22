@@ -1,11 +1,10 @@
-package files.vault.dao;
+package files.vault.service;
 
 import files.vault.domain.entity.Member;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface MemberDao {
+public interface MemberService {
 
     int create(Member member);
 

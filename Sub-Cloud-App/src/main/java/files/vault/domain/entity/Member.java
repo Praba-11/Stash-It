@@ -19,7 +19,7 @@ public class Member {
 
     private String emailAddress;
 
-    private Long phoneNo;
+    private String designation;
 
-    private String position;
+    private Long phoneNumber;
 }
