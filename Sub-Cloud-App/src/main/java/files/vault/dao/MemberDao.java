@@ -1,16 +1,16 @@
 package files.vault.dao;
 
-import files.vault.mapper.Mapper;
+import files.vault.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DAO {
+public class MemberDao {
 
     @Autowired
-    private Mapper mapper;
+    private MemberMapper memberMapper;
 
     public String getInfo(Long roll) {
-        return mapper.getInfo(roll);
+        return memberMapper.getInfo(roll);
     }
 }

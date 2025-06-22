@@ -1,14 +1,14 @@
 package files.vault.service;
 
-import files.vault.dao.DAO;
+import files.vault.dao.MemberDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service
 public class Service {
 
-    @Autowired private DAO dao;
+    @Autowired private MemberDao memberDao;
 
     public String getInfo() {
-        return dao.getInfo(1L);
+        return memberDao.getInfo(1L);
     }
 }
