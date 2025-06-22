@@ -26,6 +26,12 @@
         <!-- New Member Form -->
         <div id="newMemberSection" class="form-section active">
             <form id="newMemberForm" enctype="multipart/form-data">
+                <!-- Member Details Section -->
+                <div class="section-header">
+                    <h3>👤 Member Details</h3>
+                    <p>Enter the new member's personal information</p>
+                </div>
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name *</label>
@@ -50,6 +56,10 @@
 
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="rollNo">Member Roll No *</label>
+                        <input type="text" id="rollNo" name="rollNo" placeholder="e.g., EMP001" required>
+                    </div>
+                    <div class="form-group">
                         <label for="department">Department</label>
                         <select id="department" name="department">
                             <option value="">Select Department</option>
@@ -61,9 +71,65 @@
                             <option value="Sales">Sales</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="form-row">
                     <div class="form-group">
                         <label for="position">Position</label>
                         <input type="text" id="position" name="position">
+                    </div>
+                    <div class="form-group">
+                        <!-- Empty space for better layout -->
+                    </div>
+                </div>
+
+                <!-- Certificate Details Section -->
+                <div class="section-header">
+                    <h3>📜 Certificate Details</h3>
+                    <p>Provide information about the certificate being assigned</p>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="newCertificateType">Certificate Type *</label>
+                        <select id="newCertificateType" name="certificateType" required>
+                            <option value="">Select Certificate Type</option>
+                            <option value="Training">Training Certificate</option>
+                            <option value="Completion">Completion Certificate</option>
+                            <option value="Achievement">Achievement Certificate</option>
+                            <option value="Participation">Participation Certificate</option>
+                            <option value="Compliance">Compliance Certificate</option>
+                            <option value="Professional">Professional Certificate</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newCertificateTitle">Certificate Title *</label>
+                        <input type="text" id="newCertificateTitle" name="certificateTitle" placeholder="e.g., React Development Training" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newIssueDate">Issue Date *</label>
+                        <input type="date" id="newIssueDate" name="issueDate" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newExpiryDate">Expiry Date (Optional)</label>
+                        <input type="date" id="newExpiryDate" name="expiryDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="newIssuingOrg">Issuing Organization *</label>
+                        <input type="text" id="newIssuingOrg" name="issuingOrg" placeholder="e.g., Tech Academy" required>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="newCertificateDescription">Certificate Description</label>
+                        <textarea id="newCertificateDescription" name="certificateDescription" rows="3" placeholder="Brief description of the certificate..."></textarea>
                     </div>
                 </div>
 
@@ -90,4 +156,257 @@
             </form>
         </div>
 
-        <!-- Existing Member
+        <!-- Existing Member Form -->
+        <div id="existingMemberSection" class="form-section">
+            <form id="existingMemberForm" enctype="multipart/form-data">
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="memberSearch">Search Member *</label>
+                        <div class="search-container">
+                            <input type="text" id="memberSearch" name="memberSearch" class="search-input" placeholder="Type roll no, name or email..." required>
+                            <div class="search-icon">🔍</div>
+                            <div id="memberDropdown" class="dropdown">
+                                <!-- Dropdown items will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Member Info (Hidden by default) -->
+                <div id="selectedMemberInfo" class="member-info" style="display: none;">
+                    <h3>Selected Member</h3>
+                    <div class="member-details">
+                        <div><strong>Roll No:</strong> <span id="selectedMemberRoll"></span></div>
+                        <div><strong>Name:</strong> <span id="selectedMemberName"></span></div>
+                        <div><strong>Email:</strong> <span id="selectedMemberEmail"></span></div>
+                        <div><strong>Department:</strong> <span id="selectedMemberDept"></span></div>
+                        <div><strong>Position:</strong> <span id="selectedMemberPos"></span></div>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="certificateType">Certificate Type</label>
+                        <select id="certificateType" name="certificateType">
+                            <option value="">Select Certificate Type</option>
+                            <option value="Training">Training Certificate</option>
+                            <option value="Completion">Completion Certificate</option>
+                            <option value="Achievement">Achievement Certificate</option>
+                            <option value="Participation">Participation Certificate</option>
+                            <option value="Compliance">Compliance Certificate</option>
+                            <option value="Professional">Professional Certificate</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="certificateTitle">Certificate Title</label>
+                        <input type="text" id="certificateTitle" name="certificateTitle" placeholder="e.g., React Development Training">
+                    </div>
+                    <div class="form-group">
+                        <label for="issueDate">Issue Date</label>
+                        <input type="date" id="issueDate" name="issueDate">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry Date (Optional)</label>
+                        <input type="date" id="expiryDate" name="expiryDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="issuingOrg">Issuing Organization</label>
+                        <input type="text" id="issuingOrg" name="issuingOrg" placeholder="e.g., Tech Academy">
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="certificateDescription">Certificate Description</label>
+                        <textarea id="certificateDescription" name="certificateDescription" rows="3" placeholder="Brief description of the certificate..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="existingCertificateFile">Certificate File *</label>
+                        <div class="file-upload">
+                            <input type="file" id="existingCertificateFile" name="certificate" class="file-input" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <label for="existingCertificateFile" class="file-label">
+                                <div class="file-icon">📄</div>
+                                <div class="file-text">Click to upload certificate</div>
+                                <div class="file-subtext">PDF, JPG, PNG files accepted</div>
+                            </label>
+                        </div>
+                        <div id="existingFilePreview" class="file-preview">
+                            <strong>Selected file:</strong> <span id="existingFileName"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Upload Certificate to Member
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sample member data for demonstration
+    const members = [
+        { id: 1, rollNo: "EMP001", name: "John Doe", email: "john.doe@company.com", department: "IT", position: "Developer" },
+        { id: 2, rollNo: "EMP002", name: "Jane Smith", email: "jane.smith@company.com", department: "HR", position: "Manager" },
+        { id: 3, rollNo: "EMP003", name: "Mike Johnson", email: "mike.johnson@company.com", department: "Finance", position: "Analyst" },
+        { id: 4, rollNo: "EMP004", name: "Sarah Wilson", email: "sarah.wilson@company.com", department: "Marketing", position: "Coordinator" },
+        { id: 5, rollNo: "EMP005", name: "Tom Brown", email: "tom.brown@company.com", department: "Operations", position: "Supervisor" }
+    ];
+
+    let selectedMember = null;
+
+    // Tab switching functionality
+    document.querySelectorAll('.member-type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const type = this.dataset.type;
+
+            // Update active button
+            document.querySelectorAll('.member-type-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // Show/hide sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            if (type === 'new') {
+                document.getElementById('newMemberSection').classList.add('active');
+            } else {
+                document.getElementById('existingMemberSection').classList.add('active');
+            }
+        });
+    });
+
+    // Member search functionality
+    const memberSearch = document.getElementById('memberSearch');
+    const memberDropdown = document.getElementById('memberDropdown');
+    const selectedMemberInfo = document.getElementById('selectedMemberInfo');
+
+    memberSearch.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+
+        if (query.length < 2) {
+            memberDropdown.classList.remove('show');
+            return;
+        }
+
+        const filteredMembers = members.filter(member =>
+            member.rollNo.toLowerCase().includes(query) ||
+            member.name.toLowerCase().includes(query) ||
+            member.email.toLowerCase().includes(query)
+        );
+
+        memberDropdown.innerHTML = '';
+
+        if (filteredMembers.length > 0) {
+            filteredMembers.forEach(member => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.innerHTML = `
+                    <div><strong>${member.rollNo} - ${member.name}</strong></div>
+                    <div style="font-size: 0.9em; color: #666;">${member.email} - ${member.department}</div>
+                `;
+                item.addEventListener('click', () => selectMember(member));
+                memberDropdown.appendChild(item);
+            });
+            memberDropdown.classList.add('show');
+        } else {
+            memberDropdown.classList.remove('show');
+        }
+    });
+
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container')) {
+            memberDropdown.classList.remove('show');
+        }
+    });
+
+    function selectMember(member) {
+        selectedMember = member;
+        memberSearch.value = `${member.rollNo} - ${member.name}`;
+        memberDropdown.classList.remove('show');
+
+        // Show member info
+        document.getElementById('selectedMemberRoll').textContent = member.rollNo;
+        document.getElementById('selectedMemberName').textContent = member.name;
+        document.getElementById('selectedMemberEmail').textContent = member.email;
+        document.getElementById('selectedMemberDept').textContent = member.department;
+        document.getElementById('selectedMemberPos').textContent = member.position;
+        selectedMemberInfo.style.display = 'block';
+    }
+
+    // File upload handling for new member
+    const certificateFile = document.getElementById('certificateFile');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+
+    certificateFile.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            fileName.textContent = this.files[0].name;
+            filePreview.classList.add('show');
+        } else {
+            filePreview.classList.remove('show');
+        }
+    });
+
+    // File upload handling for existing member
+    const existingCertificateFile = document.getElementById('existingCertificateFile');
+    const existingFilePreview = document.getElementById('existingFilePreview');
+    const existingFileName = document.getElementById('existingFileName');
+
+    existingCertificateFile.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            existingFileName.textContent = this.files[0].name;
+            existingFilePreview.classList.add('show');
+        } else {
+            existingFilePreview.classList.remove('show');
+        }
+    });
+
+    // Form submission handlers
+    document.getElementById('newMemberForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        showNotification('Member created and certificate uploaded successfully!', 'success');
+        this.reset();
+        filePreview.classList.remove('show');
+    });
+
+    document.getElementById('existingMemberForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!selectedMember) {
+            showNotification('Please select a member first!', 'error');
+            return;
+        }
+        showNotification('Certificate uploaded to member successfully!', 'success');
+        this.reset();
+        existingFilePreview.classList.remove('show');
+        selectedMemberInfo.style.display = 'none';
+        selectedMember = null;
+    });
+
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => notification.classList.add('show'), 100);
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => document.body.removeChild(notification), 300);
+        }, 3000);
+    }
+</script>
+</body>
+</html>
