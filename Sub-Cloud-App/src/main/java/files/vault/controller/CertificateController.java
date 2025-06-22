@@ -1,6 +1,6 @@
 package files.vault.controller;
 
-import files.vault.client.azure.storage.blob.FileStorageClient;
+import files.vault.component.azure.storage.blob.FileStorageClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,18 +12,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping("/artifact")
+@RequestMapping("/certificates")
 @Slf4j
-public class ArtifactController {
+public class CertificateController {
 
     private final FileStorageClient fileStorageClient;
 
-    public ArtifactController(FileStorageClient fileStorageClient) {
+    public CertificateController(FileStorageClient fileStorageClient) {
         this.fileStorageClient = fileStorageClient;
     }
 
-    @PostMapping("/images")
-    public void uploadImage(@RequestParam String containerName, @RequestParam MultipartFile file) throws IOException {
+    @PostMapping("/upload")
+    public void uploadCertificate(@RequestParam String containerName, @RequestParam MultipartFile file) throws IOException {
 
         fileStorageClient.createContainer(containerName);
 

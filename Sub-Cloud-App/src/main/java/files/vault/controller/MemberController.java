@@ -1,0 +1,34 @@
+package files.vault.controller;
+
+import files.vault.component.service.MemberBuilder;
+import files.vault.domain.dto.MemberRequestDto;
+import files.vault.domain.entity.Member;
+import files.vault.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/members")
+public class MemberController {
+
+    @Autowired
+    private MemberService memberService;
+
+    @Autowired
+    private MemberBuilder memberBuilder;
+
+    @PostMapping("/images")
+    public ResponseEntity<String> createMember(@RequestBody MemberRequestDto dto) {
+
+        Member member = memberBuilder.build(dto);
+        memberService.create(member);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Member created");
+    }
+}
+

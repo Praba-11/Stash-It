@@ -1,4 +1,4 @@
-package files.vault.client.azure.storage.blob;
+package files.vault.component.azure.storage.blob;
 
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
