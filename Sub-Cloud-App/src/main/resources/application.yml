@@ -11,6 +11,7 @@ spring:
           property-sources[0]:
             endpoint: ${AZURE_KEY_VAULT_ENDPOINT} # Endpoint URL to connect the Azure Key Vault
       storage:
+        container-name: certicore
         connection-string: ${AZURE_STORAGE_ACCOUNT_CONNECTION_STRING} # Azure Storage Account Connection String
 
   servlet:
@@ -25,6 +26,8 @@ spring:
     hikari:
       connection-timeout: 30000  # 30 seconds
       maximum-pool-size: 10
+
+
 
 server:
   port: 9080

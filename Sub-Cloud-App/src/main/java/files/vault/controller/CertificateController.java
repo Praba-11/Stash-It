@@ -1,11 +1,10 @@
 package files.vault.controller;
 
 import files.vault.component.azure.storage.blob.FileStorageClient;
+import files.vault.domain.dto.MemberRequestDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,6 +15,9 @@ import java.io.InputStream;
 @Slf4j
 public class CertificateController {
 
+    @Value("${spring.cloud.azure.storage.container-name}")
+    private String containerName;
+
     private final FileStorageClient fileStorageClient;
 
     public CertificateController(FileStorageClient fileStorageClient) {
@@ -23,14 +25,21 @@ public class CertificateController {
     }
 
     @PostMapping("/upload")
-    public void uploadCertificate(@RequestParam String containerName, @RequestParam MultipartFile file) throws IOException {
+    public void upload(@RequestParam MultipartFile file, @RequestBody MemberRequestDto dto) throws IOException {
+
+        String blobName =
+                String.format(
+                        "%s/%s/%s",
+                        dto.getDepartment(),
+                        dto.getDesignation(),
+                        file.getOriginalFilename());
 
         fileStorageClient.createContainer(containerName);
 
         try (InputStream inputStream = file.getInputStream()) {
             fileStorageClient.uploadImage(
                     containerName,
-                    file.getOriginalFilename(),
+                    blobName,
                     inputStream,
                     file.getSize()
             );
