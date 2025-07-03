@@ -1,5 +1,6 @@
 package files.vault.domain.dto;
 
+import files.vault.domain.entity.ArtifactType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MemberRequestDto {
+public class ArtifactGetRequestDto {
 
     /**
      * The member's first name.
@@ -48,5 +49,7 @@ public class MemberRequestDto {
      * The job title or position of the member.
      */
     private String designation;
+
+    private ArtifactType artifactType;
 }
 

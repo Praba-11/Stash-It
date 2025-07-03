@@ -26,9 +26,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> getByNameOrRollNo(String chars) {
+    public List<Member> findByNameOrRollNo(String chars) {
         try {
-            return dao.getByNameOrRollNo(chars);
+            return dao.findByNameOrRollNo(chars);
         } catch (DaoLayerException exception) {
             throw new ServiceLayerException(exception.getMessage());
         }

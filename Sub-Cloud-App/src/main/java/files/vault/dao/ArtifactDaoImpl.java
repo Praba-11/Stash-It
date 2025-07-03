@@ -1,22 +1,22 @@
 package files.vault.dao;
 
 import commons.exceptions.service.DaoLayerException;
-import files.vault.domain.entity.Certificate;
-import files.vault.mapper.CertificateMapper;
+import files.vault.domain.entity.Artifact;
+import files.vault.mapper.ArtifactMapper;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CertificateDaoImpl implements CertificateDao {
+public class ArtifactDaoImpl implements ArtifactDao {
 
     @Autowired
-    private CertificateMapper certificateMapper;
+    private ArtifactMapper artifactMapper;
 
     @Override
-    public int create(Certificate certificate) {
+    public int create(Artifact artifact) {
         try {
-            return certificateMapper.create(certificate);
+            return artifactMapper.create(artifact);
         } catch (PersistenceException exception) {
             throw new DaoLayerException(exception.getMessage());
         }

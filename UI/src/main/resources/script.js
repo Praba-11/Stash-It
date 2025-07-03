@@ -1,10 +1,10 @@
 // Sample member data for demonstration
 const members = [
-    { id: 1, rollNo: "EMP001", name: "John Doe", email: "john.doe@company.com", department: "IT", position: "Developer" },
-    { id: 2, rollNo: "EMP002", name: "Jane Smith", email: "jane.smith@company.com", department: "HR", position: "Manager" },
-    { id: 3, rollNo: "EMP003", name: "Mike Johnson", email: "mike.johnson@company.com", department: "Finance", position: "Analyst" },
-    { id: 4, rollNo: "EMP004", name: "Sarah Wilson", email: "sarah.wilson@company.com", department: "Marketing", position: "Coordinator" },
-    { id: 5, rollNo: "EMP005", name: "Tom Brown", email: "tom.brown@company.com", department: "Operations", position: "Supervisor" }
+    { id: 1, rollNo: "MEM001", name: "John Doe", email: "john.doe@company.com", department: "IT", position: "Developer" },
+    { id: 2, rollNo: "MEM002", name: "Jane Smith", email: "jane.smith@company.com", department: "HR", position: "Manager" },
+    { id: 3, rollNo: "MEM003", name: "Mike Johnson", email: "mike.johnson@company.com", department: "Finance", position: "Analyst" },
+    { id: 4, rollNo: "MEM004", name: "Sarah Wilson", email: "sarah.wilson@company.com", department: "Marketing", position: "Coordinator" },
+    { id: 5, rollNo: "MEM005", name: "Tom Brown", email: "tom.brown@company.com", department: "Operations", position: "Supervisor" }
 ];
 
 let selectedMember = null;
@@ -79,12 +79,12 @@ function selectMember(member) {
     selectedMemberInfo.style.display = 'block';
 }
 
-// File handling
-const certificateFile = document.getElementById('certificateFile');
+// File handling for new member form
+const artifactFile = document.getElementById('artifactFile');
 const filePreview = document.getElementById('filePreview');
 const fileName = document.getElementById('fileName');
 
-certificateFile.addEventListener('change', function () {
+artifactFile.addEventListener('change', function () {
     if (this.files && this.files[0]) {
         fileName.textContent = this.files[0].name;
         filePreview.classList.add('show');
@@ -93,11 +93,12 @@ certificateFile.addEventListener('change', function () {
     }
 });
 
-const existingCertificateFile = document.getElementById('existingCertificateFile');
+// File handling for existing member form
+const existingArtifactFile = document.getElementById('existingArtifactFile');
 const existingFilePreview = document.getElementById('existingFilePreview');
 const existingFileName = document.getElementById('existingFileName');
 
-existingCertificateFile.addEventListener('change', function () {
+existingArtifactFile.addEventListener('change', function () {
     if (this.files && this.files[0]) {
         existingFileName.textContent = this.files[0].name;
         existingFilePreview.classList.add('show');
@@ -106,12 +107,18 @@ existingCertificateFile.addEventListener('change', function () {
     }
 });
 
+// Set default date to today
+document.getElementById('newCreatedDate').valueAsDate = new Date();
+document.getElementById('createdDate').valueAsDate = new Date();
+
 // Form submission
 document.getElementById('newMemberForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    showNotification('Member created and certificate uploaded successfully!', 'success');
+    showNotification('Member created and artifact stored successfully!', 'success');
     this.reset();
     filePreview.classList.remove('show');
+    // Reset default date
+    document.getElementById('newCreatedDate').valueAsDate = new Date();
 });
 
 document.getElementById('existingMemberForm').addEventListener('submit', function (e) {
@@ -120,11 +127,13 @@ document.getElementById('existingMemberForm').addEventListener('submit', functio
         showNotification('Please select a member first!', 'error');
         return;
     }
-    showNotification('Certificate uploaded to member successfully!', 'success');
+    showNotification('Artifact stored for member successfully!', 'success');
     this.reset();
     existingFilePreview.classList.remove('show');
     selectedMemberInfo.style.display = 'none';
     selectedMember = null;
+    // Reset default date
+    document.getElementById('createdDate').valueAsDate = new Date();
 });
 
 function showNotification(message, type) {

@@ -19,7 +19,7 @@ public class AzureFileStorageClient implements FileStorageClient {
     }
 
     @Override
-    public String uploadImage(String containerName, String blobName, InputStream data, Long size) {
+    public String upload(String containerName, String blobName, InputStream data, Long size) {
 
         try {
             // Refactor the image name to avoid conflicts

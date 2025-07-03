@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CertiCore</title>
+    <title>PrivyKeep</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>CertiCore</h1>
-        <p>Upload and assign certificates to members with ease</p>
+        <h1>PrivyKeep</h1>
+        <p>Secure artifact management for members</p>
     </div>
 
     <div class="content">
@@ -56,8 +56,8 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="rollNo">Member Roll No *</label>
-                        <input type="text" id="rollNo" name="rollNo" placeholder="e.g., EMP001" required>
+                        <label for="rollNo">Member ID *</label>
+                        <input type="text" id="rollNo" name="rollNo" placeholder="e.g., MEM001" required>
                     </div>
                     <div class="form-group">
                         <label for="department">Department</label>
@@ -69,6 +69,8 @@
                             <option value="Marketing">Marketing</option>
                             <option value="Operations">Operations</option>
                             <option value="Sales">Sales</option>
+                            <option value="Research">Research & Development</option>
+                            <option value="Legal">Legal</option>
                         </select>
                     </div>
                 </div>
@@ -83,35 +85,39 @@
                     </div>
                 </div>
 
-                <!-- Certificate Details Section -->
+                <!-- Artifact Details Section -->
                 <div class="section-header">
-                    <h3>📜 Certificate Details</h3>
-                    <p>Provide information about the certificate being assigned</p>
+                    <h3>📁 Artifact Details</h3>
+                    <p>Provide information about the artifact being stored</p>
                 </div>
 
                 <div class="form-row single">
                     <div class="form-group">
-                        <label for="newCertificateType">Certificate Type *</label>
-                        <select id="newCertificateType" name="certificateType" required>
-                            <option value="">Select Certificate Type</option>
-                            <option value="Training">Training Certificate</option>
-                            <option value="Completion">Completion Certificate</option>
-                            <option value="Achievement">Achievement Certificate</option>
-                            <option value="Participation">Participation Certificate</option>
-                            <option value="Compliance">Compliance Certificate</option>
-                            <option value="Professional">Professional Certificate</option>
+                        <label for="newArtifactType">Artifact Type *</label>
+                        <select id="newArtifactType" name="artifactType" required>
+                            <option value="">Select Artifact Type</option>
+                            <option value="Document">Document</option>
+                            <option value="Certificate">Certificate</option>
+                            <option value="License">License</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Report">Report</option>
+                            <option value="Policy">Policy</option>
+                            <option value="Procedure">Procedure</option>
+                            <option value="Form">Form</option>
+                            <option value="Template">Template</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="newCertificateTitle">Certificate Title *</label>
-                        <input type="text" id="newCertificateTitle" name="certificateTitle" placeholder="e.g., React Development Training" required>
+                        <label for="newArtifactTitle">Artifact Title *</label>
+                        <input type="text" id="newArtifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required>
                     </div>
                     <div class="form-group">
-                        <label for="newIssueDate">Issue Date *</label>
-                        <input type="date" id="newIssueDate" name="issueDate" required>
+                        <label for="newCreatedDate">Created Date *</label>
+                        <input type="date" id="newCreatedDate" name="createdDate" required>
                     </div>
                 </div>
 
@@ -121,27 +127,27 @@
                         <input type="date" id="newExpiryDate" name="expiryDate">
                     </div>
                     <div class="form-group">
-                        <label for="newIssuingOrg">Issuing Organization *</label>
-                        <input type="text" id="newIssuingOrg" name="issuingOrg" placeholder="e.g., Tech Academy" required>
+                        <label for="newSource">Source/Issuer</label>
+                        <input type="text" id="newSource" name="source" placeholder="e.g., HR Department">
                     </div>
                 </div>
 
                 <div class="form-row single">
                     <div class="form-group">
-                        <label for="newCertificateDescription">Certificate Description</label>
-                        <textarea id="newCertificateDescription" name="certificateDescription" rows="3" placeholder="Brief description of the certificate..."></textarea>
+                        <label for="newArtifactDeion">Artifact Description</label>
+                        <textarea id="newArtifactDescription" name="artifactDescription" rows="3" placeholder="Brief description of the artifact..."></textarea>
                     </div>
                 </div>
 
                 <div class="form-row single">
                     <div class="form-group">
-                        <label for="certificateFile">Certificate File *</label>
+                        <label for="artifactFile">Artifact File *</label>
                         <div class="file-upload">
-                            <input type="file" id="certificateFile" name="certificate" class="file-input" accept=".pdf,.jpg,.jpeg,.png" required>
-                            <label for="certificateFile" class="file-label">
+                            <input type="file" id="artifactFile" name="artifact" class="file-input" required>
+                            <label for="artifactFile" class="file-label">
                                 <div class="file-icon">📄</div>
-                                <div class="file-text">Click to upload certificate</div>
-                                <div class="file-subtext">PDF, JPG, PNG files accepted</div>
+                                <div class="file-text">Click to upload artifact</div>
+                                <div class="file-subtext">All file types accepted</div>
                             </label>
                         </div>
                         <div id="filePreview" class="file-preview">
@@ -151,7 +157,7 @@
                 </div>
 
                 <button type="submit" class="submit-btn">
-                    Create Member & Upload Certificate
+                    Create Member & Store Artifact
                 </button>
             </form>
         </div>
@@ -163,7 +169,7 @@
                     <div class="form-group">
                         <label for="memberSearch">Search Member *</label>
                         <div class="search-container">
-                            <input type="text" id="memberSearch" name="memberSearch" class="search-input" placeholder="Type roll no, name or email..." required>
+                            <input type="text" id="memberSearch" name="memberSearch" class="search-input" placeholder="Type member ID, name or email..." required>
                             <div class="search-icon">🔍</div>
                             <div id="memberDropdown" class="dropdown">
                                 <!-- Dropdown items will be populated dynamically -->
@@ -176,7 +182,7 @@
                 <div id="selectedMemberInfo" class="member-info" style="display: none;">
                     <h3>Selected Member</h3>
                     <div class="member-details">
-                        <div><strong>Roll No:</strong> <span id="selectedMemberRoll"></span></div>
+                        <div><strong>Member ID:</strong> <span id="selectedMemberRoll"></span></div>
                         <div><strong>Name:</strong> <span id="selectedMemberName"></span></div>
                         <div><strong>Email:</strong> <span id="selectedMemberEmail"></span></div>
                         <div><strong>Department:</strong> <span id="selectedMemberDept"></span></div>
@@ -186,27 +192,31 @@
 
                 <div class="form-row single">
                     <div class="form-group">
-                        <label for="certificateType">Certificate Type</label>
-                        <select id="certificateType" name="certificateType">
-                            <option value="">Select Certificate Type</option>
-                            <option value="Training">Training Certificate</option>
-                            <option value="Completion">Completion Certificate</option>
-                            <option value="Achievement">Achievement Certificate</option>
-                            <option value="Participation">Participation Certificate</option>
-                            <option value="Compliance">Compliance Certificate</option>
-                            <option value="Professional">Professional Certificate</option>
+                        <label for="artifactType">Artifact Type *</label>
+                        <select id="artifactType" name="artifactType" required>
+                            <option value="">Select Artifact Type</option>
+                            <option value="Document">Document</option>
+                            <option value="Certificate">Certificate</option>
+                            <option value="License">License</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Report">Report</option>
+                            <option value="Policy">Policy</option>
+                            <option value="Procedure">Procedure</option>
+                            <option value="Form">Form</option>
+                            <option value="Template">Template</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="certificateTitle">Certificate Title</label>
-                        <input type="text" id="certificateTitle" name="certificateTitle" placeholder="e.g., React Development Training">
+                        <label for="artifactTitle">Artifact Title *</label>
+                        <input type="text" id="artifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required>
                     </div>
                     <div class="form-group">
-                        <label for="issueDate">Issue Date</label>
-                        <input type="date" id="issueDate" name="issueDate">
+                        <label for="createdDate">Created Date *</label>
+                        <input type="date" id="createdDate" name="createdDate" required>
                     </div>
                 </div>
 
@@ -216,27 +226,27 @@
                         <input type="date" id="expiryDate" name="expiryDate">
                     </div>
                     <div class="form-group">
-                        <label for="issuingOrg">Issuing Organization</label>
-                        <input type="text" id="issuingOrg" name="issuingOrg" placeholder="e.g., Tech Academy">
+                        <label for="source">Source/Issuer</label>
+                        <input type="text" id="source" name="source" placeholder="e.g., HR Department">
                     </div>
                 </div>
 
                 <div class="form-row single">
                     <div class="form-group">
-                        <label for="certificateDescription">Certificate Description</label>
-                        <textarea id="certificateDescription" name="certificateDescription" rows="3" placeholder="Brief description of the certificate..."></textarea>
+                        <label for="artifactDescription">Artifact Description</label>
+                        <textarea id="artifactDescription" name="artifactDescription" rows="3" placeholder="Brief description of the artifact..."></textarea>
                     </div>
                 </div>
 
                 <div class="form-row single">
                     <div class="form-group">
-                        <label for="existingCertificateFile">Certificate File *</label>
+                        <label for="existingArtifactFile">Artifact File *</label>
                         <div class="file-upload">
-                            <input type="file" id="existingCertificateFile" name="certificate" class="file-input" accept=".pdf,.jpg,.jpeg,.png" required>
-                            <label for="existingCertificateFile" class="file-label">
+                            <input type="file" id="existingArtifactFile" name="artifact" class="file-input" required>
+                            <label for="existingArtifactFile" class="file-label">
                                 <div class="file-icon">📄</div>
-                                <div class="file-text">Click to upload certificate</div>
-                                <div class="file-subtext">PDF, JPG, PNG files accepted</div>
+                                <div class="file-text">Click to upload artifact</div>
+                                <div class="file-subtext">All file types accepted</div>
                             </label>
                         </div>
                         <div id="existingFilePreview" class="file-preview">
@@ -246,7 +256,7 @@
                 </div>
 
                 <button type="submit" class="submit-btn">
-                    Upload Certificate to Member
+                    Store Artifact for Member
                 </button>
             </form>
         </div>

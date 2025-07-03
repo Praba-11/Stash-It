@@ -28,7 +28,7 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
-    public List<Member> getByNameOrRollNo(String chars) {
+    public List<Member> findByNameOrRollNo(String chars) {
         try {
             return mapper.getByNameOrRollNo(chars);
         } catch (PersistenceException exception) {

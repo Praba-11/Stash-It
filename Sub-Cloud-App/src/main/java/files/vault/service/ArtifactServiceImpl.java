@@ -2,21 +2,21 @@ package files.vault.service;
 
 import commons.exceptions.service.DaoLayerException;
 import commons.exceptions.service.ServiceLayerException;
-import files.vault.dao.CertificateDao;
-import files.vault.domain.entity.Certificate;
+import files.vault.dao.ArtifactDao;
+import files.vault.domain.entity.Artifact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CertificateServiceImpl implements CertificateService {
+public class ArtifactServiceImpl implements ArtifactService {
 
     @Autowired
-    private CertificateDao certificateDao;
+    private ArtifactDao artifactDao;
 
     @Override
-    public int create(Certificate certificate) {
+    public int create(Artifact artifact) {
         try {
-            return certificateDao.create(certificate);
+            return artifactDao.create(artifact);
         } catch (DaoLayerException exception) {
             throw new ServiceLayerException(exception.getMessage());
         }

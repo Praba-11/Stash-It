@@ -9,5 +9,5 @@ public interface MemberService {
 
     int create(Member member) throws ServiceLayerException;
 
-    List<Member> getByNameOrRollNo(String chars) throws ServiceLayerException;
+    List<Member> findByNameOrRollNo(String chars) throws ServiceLayerException;
 }
