@@ -1,15 +1,21 @@
 package files.vault.controller;
 
+import commons.exceptions.service.ServiceLayerException;
+import files.vault.component.service.ArtifactBuilder;
+import files.vault.component.service.FileStorageCreator;
 import files.vault.component.service.MemberBuilder;
-import files.vault.domain.dto.ArtifactUploadRequestDto;
+import files.vault.domain.dto.MemberAndArtifactUploadRequestDto;
+import files.vault.domain.entity.Artifact;
 import files.vault.domain.entity.Department;
 import files.vault.domain.entity.Member;
+import files.vault.service.ArtifactService;
 import files.vault.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +33,16 @@ public class MemberController {
     private MemberService memberService;
 
     @Autowired
+    private ArtifactService artifactService;
+
+    @Autowired
     private MemberBuilder memberBuilder;
+
+    @Autowired
+    private ArtifactBuilder artifactBuilder;
+
+    @Autowired
+    private FileStorageCreator fileStorageCreator;
 
 
     /**
@@ -40,15 +55,30 @@ public class MemberController {
      * @param dto the artifact upload request DTO containing member information
      * @return {@link ResponseEntity} with HTTP 201 (Created) if successful
      */
-    @PostMapping("/create")
-    public ResponseEntity<Void> createMember(@RequestBody ArtifactUploadRequestDto dto) {
+    @PostMapping("/new/member/upload")
+    public ResponseEntity<Void> createMemberAndUploadArtifact(@RequestParam MultipartFile file, @RequestBody MemberAndArtifactUploadRequestDto dto) {
 
-        log.info("Member create initiated. Name: {} Roll no: {}", dto.getFirstName(), dto.getRollNo());
+        try {
+            log.info("Member create initiated. Name: {} Roll no: {}", dto.getFirstName(), dto.getRollNo());
 
-        Member member = memberBuilder.build(dto);
-        memberService.create(member);
+            Member member = memberBuilder.build(dto);
+            memberService.create(member);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+            fileStorageCreator.create(member, file);
+
+            Artifact artifact = artifactBuilder.build(dto);
+            artifactService.create(artifact);
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+
+        } catch (ServiceLayerException e) {
+            log.error("Service layer exception occurred: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        } catch (Exception e) {
+            log.error("Unexpected error during member and artifact creation: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

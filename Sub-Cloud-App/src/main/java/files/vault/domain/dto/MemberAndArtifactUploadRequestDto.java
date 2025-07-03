@@ -7,14 +7,49 @@ import lombok.Setter;
 import java.util.Date;
 
 /**
- * Data Transfer Object (DTO) for uploading an artifact.
+ * Data Transfer Object (DTO) for uploading an artifact associated with a member.
  *
  * <p>This class carries both the member's details and the artifact metadata
  * from the client-side form to the backend for further processing and persistence.
  */
 @Getter
 @Setter
-public class ArtifactUploadRequestDto {
+public class MemberAndArtifactUploadRequestDto {
+
+    /**
+     * The member's first name.
+     */
+    private String firstName;
+
+    /**
+     * The member's last name.
+     */
+    private String lastName;
+
+    /**
+     * The email address of the member.
+     */
+    private String emailAddress;
+
+    /**
+     * The member's phone number.
+     */
+    private Long phoneNumber;
+
+    /**
+     * The unique roll number or employee ID of the member.
+     */
+    private String rollNo;
+
+    /**
+     * The department the member belongs to.
+     */
+    private String department;
+
+    /**
+     * The job title or position of the member.
+     */
+    private String designation;
 
     /**
      * The type of artifact (e.g., CERTIFICATE, BADGE, etc.).

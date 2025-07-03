@@ -1,9 +1,15 @@
 package files.vault.controller;
 
+import commons.exceptions.service.ServiceLayerException;
 import files.vault.component.azure.storage.blob.FileStorageClient;
+import files.vault.component.service.ArtifactBuilder;
+import files.vault.component.service.FileStorageCreator;
 import files.vault.domain.dto.ArtifactUploadRequestDto;
+import files.vault.domain.dto.MemberAndArtifactUploadRequestDto;
+import files.vault.domain.entity.Artifact;
 import files.vault.domain.entity.ArtifactType;
 import files.vault.service.ArtifactService;
+import files.vault.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -27,13 +33,19 @@ public class ArtifactController {
     @Value("${spring.cloud.azure.storage.container-name}")
     private String containerName;
 
-    private final FileStorageClient fileStorageClient;
+    private final FileStorageCreator fileStorageCreator;
+
+    private final ArtifactBuilder artifactBuilder;
 
     private final ArtifactService artifactService;
 
-    public ArtifactController(FileStorageClient fileStorageClient, ArtifactService artifactService) {
-        this.fileStorageClient = fileStorageClient;
+    private final MemberService memberService;
+
+    public ArtifactController(FileStorageCreator fileStorageCreator, ArtifactBuilder artifactBuilder, ArtifactService artifactService, MemberService memberService) {
+        this.fileStorageCreator = fileStorageCreator;
+        this.artifactBuilder = artifactBuilder;
         this.artifactService = artifactService;
+        this.memberService = memberService;
     }
 
     /**
@@ -55,33 +67,25 @@ public class ArtifactController {
     @PostMapping("/new/member/upload")
     public ResponseEntity<HttpStatus> upload(@RequestParam MultipartFile file, @RequestBody ArtifactUploadRequestDto dto) {
 
-        String blobName = String.format(
-                "%s/%s/%s",
-                dto.getDepartment(),
-                dto.getDesignation(),
-                file.getOriginalFilename()
-        );
-
         try {
-            fileStorageClient.createContainer(containerName);
+            log.info("Artifact create initiated. Artifact name: {}", dto.getArtifactTitle());
 
-            try (InputStream inputStream = file.getInputStream()) {
-                fileStorageClient.upload(
-                        containerName,
-                        blobName,
-                        inputStream,
-                        file.getSize()
-                );
-            }
+            fileStorageCreator.create(member, file);
 
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (IOException e) {
-            log.error("I/O error while uploading file: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            Artifact artifact = artifactBuilder.build(dto);
+            artifactService.create(artifact);
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+
+        } catch (ServiceLayerException e) {
+            log.error("Service layer exception occurred: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
         } catch (Exception e) {
-            log.error("Unexpected error during file upload: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            log.error("Unexpected error during member and artifact creation: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
     }
 
     /**
