@@ -30,4 +30,17 @@ public interface MemberDao {
      * @throws DaoLayerException if a database access error occurs
      */
     List<Member> findByNameOrRollNo(String chars) throws DaoLayerException;
+
+    /**
+     * Finds a member by their unique identifier.
+     *
+     * <p>This method performs an exact match on the member ID and returns
+     * the corresponding member entity from the database.
+     *
+     * @param memberId the unique ID of the member
+     * @return the matching member entity, or {@code null} if no member is found
+     * @throws DaoLayerException if a database access error occurs
+     */
+    Member findById(Long memberId) throws DaoLayerException;
+
 }

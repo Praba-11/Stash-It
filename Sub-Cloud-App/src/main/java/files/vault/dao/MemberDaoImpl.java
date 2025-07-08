@@ -53,10 +53,28 @@ public class MemberDaoImpl implements MemberDao {
     @Override
     public List<Member> findByNameOrRollNo(String chars) {
         try {
-            return mapper.getByNameOrRollNo(chars);
+            return mapper.findByNameOrRollNo(chars);
         } catch (PersistenceException exception) {
             log.error("PersistenceException while finding members by name or rollNo: {}", exception.getMessage(), exception);
             throw new DaoLayerException(exception.getMessage());
         }
     }
+
+    /**
+     * Finds a member by their unique ID.
+     *
+     * @param memberId the ID of the member to retrieve
+     * @return the matching member, or {@code null} if no member exists with the given ID
+     * @throws DaoLayerException if a persistence error occurs during the query
+     */
+    @Override
+    public Member findById(Long memberId) {
+        try {
+            return mapper.findById(memberId);
+        } catch (PersistenceException exception) {
+            log.error("PersistenceException while finding member by ID {}: {}", memberId, exception.getMessage(), exception);
+            throw new DaoLayerException(exception.getMessage());
+        }
+    }
+
 }

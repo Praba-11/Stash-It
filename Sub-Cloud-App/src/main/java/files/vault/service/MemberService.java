@@ -31,5 +31,19 @@ public interface MemberService {
      * @throws ServiceLayerException if an error occurs during the search
      */
     List<Member> findByNameOrRollNo(String chars) throws ServiceLayerException;
+
+    /**
+     * Retrieves a member by their unique identifier.
+     *
+     * <p>This method performs a direct lookup using the member ID and
+     * returns the corresponding member if found. It is typically used
+     * for precise access to a specific member's data (e.g., during artifact
+     * uploads or profile edits).
+     *
+     * @param memberId the unique ID of the member to retrieve
+     * @return the member with the given ID, or {@code null} if no such member exists
+     * @throws ServiceLayerException if an error occurs during the lookup process
+     */
+    Member findById(Long memberId) throws ServiceLayerException;
 }
 

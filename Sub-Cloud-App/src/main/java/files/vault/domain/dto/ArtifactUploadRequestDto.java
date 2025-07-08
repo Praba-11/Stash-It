@@ -17,6 +17,11 @@ import java.util.Date;
 public class ArtifactUploadRequestDto {
 
     /**
+     * The Member ID.
+     */
+    private Long memberId;
+
+    /**
      * The type of artifact (e.g., CERTIFICATE, BADGE, etc.).
      */
     private String artifactType;

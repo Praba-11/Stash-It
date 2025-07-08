@@ -8,6 +8,7 @@ import files.vault.domain.dto.ArtifactUploadRequestDto;
 import files.vault.domain.dto.MemberAndArtifactUploadRequestDto;
 import files.vault.domain.entity.Artifact;
 import files.vault.domain.entity.ArtifactType;
+import files.vault.domain.entity.Member;
 import files.vault.service.ArtifactService;
 import files.vault.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +70,8 @@ public class ArtifactController {
 
         try {
             log.info("Artifact create initiated. Artifact name: {}", dto.getArtifactTitle());
+
+            Member member = memberService.findById(dto.getMemberId());
 
             fileStorageCreator.create(member, file);
 

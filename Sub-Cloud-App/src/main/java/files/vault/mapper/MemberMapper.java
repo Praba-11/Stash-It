@@ -33,5 +33,16 @@ public interface MemberMapper {
      * @return a list of members matching the criteria; empty list if none found
      */
     @Select("SELECT * FROM member WHERE full_name LIKE CONCAT('%', #{chars}, '%') OR roll_no LIKE CONCAT('%', #{chars}, '%')")
-    List<Member> getByNameOrRollNo(@Param("chars") String chars);
+    List<Member> findByNameOrRollNo(@Param("chars") String chars);
+
+    /**
+     * Selects a member by their unique ID.
+     *
+     * <p>This performs an exact match on the {@code id} column.
+     *
+     * @param memberId the ID of the member to retrieve
+     * @return the matching member, or {@code null} if no member exists with the given ID
+     */
+    @Select("SELECT * FROM member WHERE id = #{memberId}")
+    Member findById(@Param("memberId") Long memberId);
 }

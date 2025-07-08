@@ -56,4 +56,21 @@ public class MemberServiceImpl implements MemberService {
             throw new ServiceLayerException(exception.getMessage());
         }
     }
+
+    /**
+     * Finds a member by their unique ID by delegating to the DAO layer.
+     *
+     * @param memberId the unique identifier of the member
+     * @return the member if found; {@code null} if no member exists with the given ID
+     * @throws ServiceLayerException if any DAO exception occurs during lookup
+     */
+    @Override
+    public Member findById(Long memberId) {
+        try {
+            return dao.findById(memberId);
+        } catch (DaoLayerException exception) {
+            log.error("Failed to find member by ID {}: {}", memberId, exception.getMessage(), exception);
+            throw new ServiceLayerException(exception.getMessage());
+        }
+    }
 }
