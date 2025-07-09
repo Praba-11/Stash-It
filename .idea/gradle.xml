@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/UI" />
             <option value="$PROJECT_DIR$/commons" />
             <option value="$PROJECT_DIR$/commons/exceptions" />
+            <option value="$PROJECT_DIR$/commons/exceptions/app" />
             <option value="$PROJECT_DIR$/commons/exceptions/cloud" />
           </set>
         </option>

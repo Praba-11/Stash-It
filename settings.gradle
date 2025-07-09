@@ -8,3 +8,4 @@ findProject(':commons:exceptions:cloud')?.name = 'cloud'
 
 
 include 'UI'
+include 'commons:exceptions:app'
