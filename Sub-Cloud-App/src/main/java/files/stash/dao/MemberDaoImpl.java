@@ -1,6 +1,5 @@
 package files.stash.dao;
 
-import commons.exceptions.service.DaoLayerException;
 import files.stash.domain.entity.Member;
 import files.stash.mapper.MemberMapper;
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -8,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.DaoLayerException;
 
 import java.util.List;
 

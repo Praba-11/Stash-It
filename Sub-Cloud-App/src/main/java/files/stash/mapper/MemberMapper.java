@@ -45,4 +45,23 @@ public interface MemberMapper {
      */
     @Select("SELECT * FROM member WHERE id = #{memberId}")
     Member findById(@Param("memberId") Long memberId);
+
+    /**
+     * Updates an existing member record identified by its ID.
+     *
+     * @param member the member entity with updated fields
+     * @return the number of rows affected (usually 1)
+     */
+    @Update("UPDATE member SET roll_no = #{rollNo}, first_name = #{firstName}, last_name = #{lastName}, full_name = #{fullName}, " +
+            "email = #{email}, department = #{department}, designation = #{designation}, phone_number = #{phoneNumber} WHERE id = #{id}")
+    int update(Member member);
+
+    /**
+     * Deletes a member record identified by its ID.
+     *
+     * @param memberId the unique identifier of the member to delete
+     * @return the number of rows affected (usually 1)
+     */
+    @Delete("DELETE FROM member WHERE id = #{memberId}")
+    int delete(@Param("memberId") Long memberId);
 }

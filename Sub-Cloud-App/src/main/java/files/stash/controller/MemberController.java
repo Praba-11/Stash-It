@@ -1,6 +1,5 @@
 package files.stash.controller;
 
-import commons.exceptions.service.ServiceLayerException;
 import files.stash.component.service.ArtifactBuilder;
 import files.stash.component.service.FileStorageCreator;
 import files.stash.component.service.MemberBuilder;
@@ -16,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import service.ServiceLayerException;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -1,11 +1,13 @@
 package files.stash.dao;
 
-import commons.exceptions.service.DaoLayerException;
 import files.stash.domain.entity.Artifact;
 import files.stash.mapper.ArtifactMapper;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.DaoLayerException;
+
+import java.util.List;
 
 /**
  * Implementation of {@link ArtifactDao} interface to manage Artifact persistence operations.
@@ -31,7 +33,70 @@ public class ArtifactDaoImpl implements ArtifactDao {
         try {
             return artifactMapper.create(artifact);
         } catch (PersistenceException exception) {
-            throw new DaoLayerException(exception.getMessage());
+            throw new DaoLayerException("Failed to create artifact", exception);
+        }
+    }
+
+    /**
+     * Retrieves an artifact by its unique ID.
+     *
+     * @param id the artifact ID
+     * @return the artifact entity, or null if not found
+     * @throws DaoLayerException if a persistence error occurs during retrieval
+     */
+    @Override
+    public Artifact findById(Long id) {
+        try {
+            return artifactMapper.findById(id);
+        } catch (PersistenceException exception) {
+            throw new DaoLayerException("Failed to fetch artifact by ID", exception);
+        }
+    }
+
+    /**
+     * Retrieves all artifact records from the database.
+     *
+     * @return a list of all artifacts
+     * @throws DaoLayerException if a persistence error occurs during retrieval
+     */
+    @Override
+    public List<Artifact> findAll() {
+        try {
+            return artifactMapper.findAll();
+        } catch (PersistenceException exception) {
+            throw new DaoLayerException("Failed to fetch artifact list", exception);
+        }
+    }
+
+    /**
+     * Updates an existing artifact record in the database.
+     *
+     * @param artifact the artifact entity with updated values
+     * @return the number of rows affected
+     * @throws DaoLayerException if a persistence error occurs during update
+     */
+    @Override
+    public int update(Artifact artifact) {
+        try {
+            return artifactMapper.update(artifact);
+        } catch (PersistenceException exception) {
+            throw new DaoLayerException("Failed to update artifact", exception);
+        }
+    }
+
+    /**
+     * Deletes an artifact record by its ID.
+     *
+     * @param id the ID of the artifact to delete
+     * @return the number of rows affected
+     * @throws DaoLayerException if a persistence error occurs during deletion
+     */
+    @Override
+    public int delete(Long id) {
+        try {
+            return artifactMapper.delete(id);
+        } catch (PersistenceException exception) {
+            throw new DaoLayerException("Failed to delete artifact", exception);
         }
     }
 }

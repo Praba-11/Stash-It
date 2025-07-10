@@ -1,7 +1,7 @@
 package files.stash.dao;
 
-import commons.exceptions.service.DaoLayerException;
 import files.stash.domain.entity.Member;
+import service.DaoLayerException;
 
 import java.util.List;
 

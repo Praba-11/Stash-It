@@ -1,7 +1,7 @@
 package files.stash.service;
 
-import commons.exceptions.service.ServiceLayerException;
 import files.stash.domain.entity.Member;
+import service.ServiceLayerException;
 
 import java.util.List;
 
