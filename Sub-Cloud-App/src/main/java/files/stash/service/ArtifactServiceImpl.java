@@ -33,7 +33,7 @@ public class ArtifactServiceImpl implements ArtifactService {
         try {
             return artifactDao.create(artifact);
         } catch (DaoLayerException exception) {
-            throw new ServiceLayerException("Failed to create artifact", exception);
+            throw new ServiceLayerException(exception.getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ public class ArtifactServiceImpl implements ArtifactService {
         try {
             return artifactDao.findById(id);
         } catch (DaoLayerException exception) {
-            throw new ServiceLayerException("Failed to fetch artifact by ID", exception);
+            throw new ServiceLayerException(exception.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class ArtifactServiceImpl implements ArtifactService {
         try {
             return artifactDao.findAll();
         } catch (DaoLayerException exception) {
-            throw new ServiceLayerException("Failed to fetch artifact list", exception);
+            throw new ServiceLayerException(exception.getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ public class ArtifactServiceImpl implements ArtifactService {
         try {
             return artifactDao.update(artifact);
         } catch (DaoLayerException exception) {
-            throw new ServiceLayerException("Failed to update artifact", exception);
+            throw new ServiceLayerException(exception.getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ public class ArtifactServiceImpl implements ArtifactService {
         try {
             return artifactDao.delete(id);
         } catch (DaoLayerException exception) {
-            throw new ServiceLayerException("Failed to delete artifact", exception);
+            throw new ServiceLayerException(exception.getMessage());
         }
     }
 }

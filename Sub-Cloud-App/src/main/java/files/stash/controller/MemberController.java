@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/api/member")
 public class MemberController {
 
     @Autowired
@@ -55,7 +55,7 @@ public class MemberController {
      * @param dto the artifact upload request DTO containing member information
      * @return {@link ResponseEntity} with HTTP 201 (Created) if successful
      */
-    @PostMapping("/new/member/upload")
+    @PostMapping("/new/upload")
     public ResponseEntity<Void> createMemberAndUploadArtifact(@RequestParam MultipartFile file, @RequestBody MemberAndArtifactUploadRequestDto dto) {
 
         try {
@@ -97,21 +97,26 @@ public class MemberController {
      *         </ul>
      */
     @GetMapping("/find")
-    public ResponseEntity<List<Member>> getMemberByNameOrRollNo(
-            @RequestParam(required = false) String chars) {
+    public ResponseEntity<List<Member>> getMemberByNameOrRollNo(@RequestParam(required = false) String chars) {
+        try {
+            if (chars == null) {
+                log.warn("Missing query parameter: 'chars'");
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
 
-        if (chars == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+            log.info("Member search initiated. Query: {}", chars);
+            List<Member> members = memberService.findByNameOrRollNo(chars);
 
-        log.info("Member find initiated. Char string passed: {}", chars);
+            if (members != null && !members.isEmpty()) {
+                return new ResponseEntity<>(members, HttpStatus.OK);
+            } else {
+                log.info("No members found for query: {}", chars);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-        List<Member> member = memberService.findByNameOrRollNo(chars);
-
-        if (member != null && !member.isEmpty()) {
-            return new ResponseEntity<>(member, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            log.error("Error occurred while searching for members: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -133,22 +138,30 @@ public class MemberController {
      * ]
      * </pre>
      */
-    @GetMapping("/find/department/types")
-    public ResponseEntity<List<Map<String, String>>> findAllDepartmentTypes() throws IOException {
-        List<Map<String, String>> departments =
-                Stream.of(Department.values())
-                        .map(dept -> {
-                            Map<String, String> deptInfo = new HashMap<>();
-                            deptInfo.put("name", dept.name());
-                            // Convert enum name to Title Case display name
-                            String displayName = dept.name().toLowerCase().replace('_', ' ');
-                            displayName = Character.toUpperCase(displayName.charAt(0)) + displayName.substring(1);
-                            deptInfo.put("displayName", displayName);
-                            return deptInfo;
-                        })
-                        .collect(Collectors.toList());
+    @GetMapping("/find/departments")
+    public ResponseEntity<List<Map<String, String>>> findAllDepartmentTypes() {
+        try {
+            log.info("Fetching all member departments");
 
-        return ResponseEntity.ok(departments);
+            List<Map<String, String>> departments = Stream.of(Department.values())
+                    .map(dept -> {
+                        Map<String, String> deptInfo = new HashMap<>();
+                        deptInfo.put("name", dept.name());
+
+                        String displayName = dept.name().toLowerCase().replace('_', ' ');
+                        displayName = Character.toUpperCase(displayName.charAt(0)) + displayName.substring(1);
+                        deptInfo.put("displayName", displayName);
+
+                        return deptInfo;
+                    })
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(departments);
+
+        } catch (Exception e) {
+            log.error("Failed to fetch department types: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
 

@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version "3.3.2"
     id 'io.spring.dependency-management' version "1.1.4"
+    id 'checkstyle'                              // Add Checkstyle plugin
 }
 
 group = 'org.example'
@@ -13,7 +14,7 @@ repositories {
 
 jar {
     archiveFileName = 'files-vault-app.jar'  // Name of the JAR file
-    destinationDirectory = file("$buildDir/libs")  // This is the directory where the JAR will be placed
+    destinationDirectory = file("$buildDir/libs")  // Output directory
 }
 
 dependencies {
@@ -22,44 +23,45 @@ dependencies {
     implementation project(':commons:exceptions:cloud')
 
     // Lombok
-    // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Spring
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+    // Spring Boot Starter Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // Postgres
-    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    // PostgreSQL Driver
     implementation 'org.postgresql:postgresql:42.7.4'
 
+    // MyBatis Spring Boot Starter
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 
-    // MyBatis
-    // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter/3.0.3
-    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
-
-    // Junit
-    // https://mvnrepository.com/artifact/org.junit/junit-bom/5.10.0
+    // JUnit Jupiter for testing
     testImplementation platform('org.junit:junit-bom:5.10.0')
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    // Microsoft Spring Cloud Azure Storage Blob
-    // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-storage-blob
+    // Azure Spring Cloud Storage Blob Starter
     implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob:5.18.0'
 
-    // Microsoft Azure Resource Manager
-    // https://mvnrepository.com/artifact/com.azure.resourcemanager/azure-resourcemanager-resources
+    // Azure Resource Manager
     implementation 'com.azure.resourcemanager:azure-resourcemanager-resources:2.45.0'
 
-    // Microsoft Azure Key Vault Starter
-    // https://mvnrepository.com/artifact/com.azure.spring/spring-cloud-azure-starter-keyvault-secrets
-    implementation("com.azure.spring:spring-cloud-azure-starter-keyvault-secrets:6.0.0-beta.4")
-
-
+    // Azure Key Vault Starter (Beta)
+    implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault-secrets:6.0.0-beta.4'
 }
 
 test {
     useJUnitPlatform()
 }
+
+checkstyle {
+    toolVersion = '10.12.1'          // Specify the Checkstyle version
+    configFile = file('config/checkstyle/checkstyle.xml')  // Path to your Checkstyle config
+}
+
+tasks.withType(Checkstyle) {
+    ignoreFailures = false           // Fail the build on violations
+    showViolations = true
+}
+
+// Hook Checkstyle into the build lifecycle (optional but recommended)
+check.dependsOn 'checkstyleMain', 'checkstyleTest'

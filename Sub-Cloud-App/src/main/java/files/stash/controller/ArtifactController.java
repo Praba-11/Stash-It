@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/artifact")
+@RequestMapping("/api/artifact")
 @Slf4j
 public class ArtifactController {
 
@@ -107,19 +107,21 @@ public class ArtifactController {
      * ]
      * </pre>
      */
-    @GetMapping("/find/artifact/types")
+    @GetMapping("/find/all")
     public ResponseEntity<List<Map<String, String>>> findAllArtifactType() throws IOException {
-        List<Map<String, String>> types =
-                Stream.of(ArtifactType.values())
-                        .map(type -> {
-                            Map<String, String> typeInfo = new HashMap<>();
-                            typeInfo.put("name", type.name());
-                            typeInfo.put("displayName", type.getDisplayName());
-                            return typeInfo;
-                        })
-                        .collect(Collectors.toList());
+        log.info("Fetching all available artifact types");
+
+        List<Map<String, String>> types = Stream.of(ArtifactType.values())
+                .map(type -> {
+                    Map<String, String> typeInfo = new HashMap<>();
+                    typeInfo.put("name", type.name());
+                    typeInfo.put("displayName", type.getDisplayName());
+                    return typeInfo;
+                })
+                .collect(Collectors.toList());
+
+        log.info("Artifact types fetched successfully. Count: {}", types.size());
 
         return ResponseEntity.ok(types);
     }
-
 }

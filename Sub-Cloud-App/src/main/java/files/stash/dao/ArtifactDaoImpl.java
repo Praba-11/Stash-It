@@ -33,7 +33,7 @@ public class ArtifactDaoImpl implements ArtifactDao {
         try {
             return artifactMapper.create(artifact);
         } catch (PersistenceException exception) {
-            throw new DaoLayerException("Failed to create artifact", exception);
+            throw new DaoLayerException(exception.getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ public class ArtifactDaoImpl implements ArtifactDao {
         try {
             return artifactMapper.findById(id);
         } catch (PersistenceException exception) {
-            throw new DaoLayerException("Failed to fetch artifact by ID", exception);
+            throw new DaoLayerException(exception.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class ArtifactDaoImpl implements ArtifactDao {
         try {
             return artifactMapper.findAll();
         } catch (PersistenceException exception) {
-            throw new DaoLayerException("Failed to fetch artifact list", exception);
+            throw new DaoLayerException(exception.getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ public class ArtifactDaoImpl implements ArtifactDao {
         try {
             return artifactMapper.update(artifact);
         } catch (PersistenceException exception) {
-            throw new DaoLayerException("Failed to update artifact", exception);
+            throw new DaoLayerException(exception.getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ public class ArtifactDaoImpl implements ArtifactDao {
         try {
             return artifactMapper.delete(id);
         } catch (PersistenceException exception) {
-            throw new DaoLayerException("Failed to delete artifact", exception);
+            throw new DaoLayerException(exception.getMessage());
         }
     }
 }
