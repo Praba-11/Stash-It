@@ -1,9 +1,4 @@
 spring:
-  security:
-    user:
-      name: Prabakaran
-      password: narakabarp
-
   cloud:
     azure:
       key-vault:
