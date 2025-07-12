@@ -40,7 +40,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // Azure Spring Cloud Storage Blob Starter
-    implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob:5.18.0'
+    implementation 'com.azure.spring:spring-cloud-azure-starter-storage-blob:5.22.0'
 
     // Azure Resource Manager
     implementation 'com.azure.resourcemanager:azure-resourcemanager-resources:2.45.0'
