@@ -1,150 +1,279 @@
-// Sample member data for demonstration
-const members = [
-    { id: 1, rollNo: "MEM001", name: "John Doe", email: "john.doe@company.com", department: "IT", position: "Developer" },
-    { id: 2, rollNo: "MEM002", name: "Jane Smith", email: "jane.smith@company.com", department: "HR", position: "Manager" },
-    { id: 3, rollNo: "MEM003", name: "Mike Johnson", email: "mike.johnson@company.com", department: "Finance", position: "Analyst" },
-    { id: 4, rollNo: "MEM004", name: "Sarah Wilson", email: "sarah.wilson@company.com", department: "Marketing", position: "Coordinator" },
-    { id: 5, rollNo: "MEM005", name: "Tom Brown", email: "tom.brown@company.com", department: "Operations", position: "Supervisor" }
-];
-
+// -------------------------------
+// Globals
+// -------------------------------
 let selectedMember = null;
+let memberCache = [];
 
-// Tab switching functionality
-document.querySelectorAll('.member-type-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-        const type = this.dataset.type;
+// -------------------------------
+// DOM Ready
+// -------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  initTabSwitching();
+  initMemberSearch();
+  initFileInputs();
+  initFormHandlers();
+  initDateDefaults();
+  fetchDepartments();
+  fetchArtifactTypes();
+  fetchAllMembers();
+});
 
-        document.querySelectorAll('.member-type-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
+// -------------------------------
+// Tab Switching
+// -------------------------------
+function initTabSwitching() {
+  const buttons = document.querySelectorAll('.member-type-btn');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selected = btn.dataset.type;
 
-        document.querySelectorAll('.form-section').forEach(section => section.classList.remove('active'));
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-        document.getElementById(type === 'new' ? 'newMemberSection' : 'existingMemberSection').classList.add('active');
+      document.querySelectorAll('.form-section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      document.getElementById(selected === 'new' ? 'newMemberSection' : 'existingMemberSection').classList.add('active');
     });
-});
-
-// Member search functionality
-const memberSearch = document.getElementById('memberSearch');
-const memberDropdown = document.getElementById('memberDropdown');
-const selectedMemberInfo = document.getElementById('selectedMemberInfo');
-
-memberSearch.addEventListener('input', function () {
-    const query = this.value.toLowerCase();
-
-    if (query.length < 2) {
-        memberDropdown.classList.remove('show');
-        return;
-    }
-
-    const filtered = members.filter(m =>
-        m.rollNo.toLowerCase().includes(query) ||
-        m.name.toLowerCase().includes(query) ||
-        m.email.toLowerCase().includes(query)
-    );
-
-    memberDropdown.innerHTML = '';
-    if (filtered.length > 0) {
-        filtered.forEach(member => {
-            const item = document.createElement('div');
-            item.className = 'dropdown-item';
-            item.innerHTML = `
-                <div><strong>${member.rollNo} - ${member.name}</strong></div>
-                <div style="font-size: 0.9em; color: #666;">${member.email} - ${member.department}</div>
-            `;
-            item.addEventListener('click', () => selectMember(member));
-            memberDropdown.appendChild(item);
-        });
-        memberDropdown.classList.add('show');
-    } else {
-        memberDropdown.classList.remove('show');
-    }
-});
-
-document.addEventListener('click', function (e) {
-    if (!e.target.closest('.search-container')) {
-        memberDropdown.classList.remove('show');
-    }
-});
-
-function selectMember(member) {
-    selectedMember = member;
-    memberSearch.value = `${member.rollNo} - ${member.name}`;
-    memberDropdown.classList.remove('show');
-
-    document.getElementById('selectedMemberRoll').textContent = member.rollNo;
-    document.getElementById('selectedMemberName').textContent = member.name;
-    document.getElementById('selectedMemberEmail').textContent = member.email;
-    document.getElementById('selectedMemberDept').textContent = member.department;
-    document.getElementById('selectedMemberPos').textContent = member.position;
-    selectedMemberInfo.style.display = 'block';
+  });
 }
 
-// File handling for new member form
-const artifactFile = document.getElementById('artifactFile');
-const filePreview = document.getElementById('filePreview');
-const fileName = document.getElementById('fileName');
+// -------------------------------
+// Fetch All Members from Backend
+// -------------------------------
+function fetchAllMembers() {
+  fetch('/api/member/find/all')
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch members');
+      return res.json();
+    })
+    .then(data => {
+      memberCache = data;
+    })
+    .catch(err => console.error('Error fetching members:', err));
+}
 
-artifactFile.addEventListener('change', function () {
-    if (this.files && this.files[0]) {
-        fileName.textContent = this.files[0].name;
-        filePreview.classList.add('show');
-    } else {
-        filePreview.classList.remove('show');
+// -------------------------------
+// Member Search
+// -------------------------------
+function initMemberSearch() {
+  const input = document.getElementById('memberSearch');
+  const dropdown = document.getElementById('memberDropdown');
+  const infoBox = document.getElementById('selectedMemberInfo');
+
+  input.addEventListener('input', () => {
+    const query = input.value.toLowerCase();
+    if (query.length < 2 || memberCache.length === 0) {
+      dropdown.classList.remove('show');
+      return;
     }
-});
 
-// File handling for existing member form
-const existingArtifactFile = document.getElementById('existingArtifactFile');
-const existingFilePreview = document.getElementById('existingFilePreview');
-const existingFileName = document.getElementById('existingFileName');
+    const filtered = memberCache.filter(m =>
+      m.rollNo.toLowerCase().includes(query) ||
+      m.firstName.toLowerCase().includes(query) ||
+      m.lastName.toLowerCase().includes(query) ||
+      m.emailAddress.toLowerCase().includes(query)
+    );
 
-existingArtifactFile.addEventListener('change', function () {
-    if (this.files && this.files[0]) {
-        existingFileName.textContent = this.files[0].name;
-        existingFilePreview.classList.add('show');
+    dropdown.innerHTML = '';
+    if (filtered.length > 0) {
+      filtered.forEach(member => {
+        const item = document.createElement('div');
+        item.className = 'dropdown-item';
+        item.innerHTML = `
+          <div><strong>${member.rollNo} - ${member.firstName} ${member.lastName}</strong></div>
+          <div style="font-size: 0.9em; color: #666;">${member.emailAddress} - ${member.department}</div>
+        `;
+        item.addEventListener('click', () => selectMember(member));
+        dropdown.appendChild(item);
+      });
+      dropdown.classList.add('show');
     } else {
-        existingFilePreview.classList.remove('show');
+      dropdown.classList.remove('show');
     }
-});
+  });
 
-// Set default date to today
-document.getElementById('newCreatedDate').valueAsDate = new Date();
-document.getElementById('createdDate').valueAsDate = new Date();
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-container')) {
+      dropdown.classList.remove('show');
+    }
+  });
 
-// Form submission
-document.getElementById('newMemberForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    showNotification('Member created and artifact stored successfully!', 'success');
-    this.reset();
-    filePreview.classList.remove('show');
-    // Reset default date
-    document.getElementById('newCreatedDate').valueAsDate = new Date();
-});
+  function selectMember(member) {
+    selectedMember = member;
+    input.value = `${member.rollNo} - ${member.firstName} ${member.lastName}`;
+    dropdown.classList.remove('show');
 
-document.getElementById('existingMemberForm').addEventListener('submit', function (e) {
+    document.getElementById('selectedMemberRoll').textContent = member.rollNo;
+    document.getElementById('selectedMemberName').textContent = `${member.firstName} ${member.lastName}`;
+    document.getElementById('selectedMemberEmail').textContent = member.emailAddress;
+    document.getElementById('selectedMemberDept').textContent = member.department;
+    document.getElementById('selectedMemberPos').textContent = member.designation;
+
+    infoBox.style.display = 'block';
+  }
+}
+
+// -------------------------------
+// File Input Handling
+// -------------------------------
+function initFileInputs() {
+  const fileHandlers = [
+    { inputId: 'artifactFile', previewId: 'filePreview', nameId: 'fileName' },
+    { inputId: 'existingArtifactFile', previewId: 'existingFilePreview', nameId: 'existingFileName' }
+  ];
+
+  fileHandlers.forEach(({ inputId, previewId, nameId }) => {
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    const nameSpan = document.getElementById(nameId);
+
+    input.addEventListener('change', function () {
+      if (this.files && this.files[0]) {
+        nameSpan.textContent = this.files[0].name;
+        preview.classList.add('show');
+      } else {
+        preview.classList.remove('show');
+      }
+    });
+  });
+}
+
+// -------------------------------
+// Set Default Dates
+// -------------------------------
+function initDateDefaults() {
+  document.getElementById('newCreatedDate').valueAsDate = new Date();
+  document.getElementById('createdDate').valueAsDate = new Date();
+}
+
+// -------------------------------
+// Form Submission
+// -------------------------------
+function initFormHandlers() {
+  const existingForm = document.getElementById('existingMemberForm');
+
+  existingForm.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!selectedMember) {
-        showNotification('Please select a member first!', 'error');
-        return;
+      showNotification('Please select a member first!', 'error');
+      return;
     }
-    showNotification('Artifact stored for member successfully!', 'success');
-    this.reset();
-    existingFilePreview.classList.remove('show');
-    selectedMemberInfo.style.display = 'none';
-    selectedMember = null;
-    // Reset default date
-    document.getElementById('createdDate').valueAsDate = new Date();
-});
 
+    const formData = new FormData();
+    const fileInput = document.getElementById('existingArtifactFile');
+    const file = fileInput.files[0];
+    if (!file) {
+      showNotification('Please upload a file!', 'error');
+      return;
+    }
+
+    formData.append('file', file);
+
+    const dto = {
+      rollNo: selectedMember.rollNo,
+      firstName: selectedMember.firstName,
+      lastName: selectedMember.lastName,
+      emailAddress: selectedMember.emailAddress,
+      phoneNumber: selectedMember.phoneNumber,
+      department: selectedMember.department,
+      designation: selectedMember.designation,
+      artifactType: document.getElementById('artifactType').value,
+      artifactTitle: document.getElementById('artifactTitle').value,
+      createdDate: document.getElementById('createdDate').value,
+      expiryDate: document.getElementById('expiryDate').value || null,
+      issuer: document.getElementById('issuer').value,
+      description: document.getElementById('description').value
+    };
+
+    formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+
+    fetch('/api/artifact/upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => {
+      if (res.ok) {
+        showNotification('Artifact stored for member successfully!', 'success');
+        existingForm.reset();
+        document.getElementById('existingFilePreview').classList.remove('show');
+        document.getElementById('selectedMemberInfo').style.display = 'none';
+        selectedMember = null;
+        initDateDefaults();
+      } else {
+        throw new Error('Upload failed');
+      }
+    })
+    .catch(() => showNotification('Something went wrong!', 'error'));
+  });
+}
+
+// -------------------------------
+// Notification Utility
+// -------------------------------
 function showNotification(message, type) {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+  document.body.appendChild(notification);
 
-    setTimeout(() => notification.classList.add('show'), 100);
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => document.body.removeChild(notification), 300);
-    }, 3000);
+  setTimeout(() => notification.classList.add('show'), 100);
+  setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => document.body.removeChild(notification), 300);
+  }, 3000);
+}
+
+// -------------------------------
+// Fetch Departments from Backend
+// -------------------------------
+function fetchDepartments() {
+  const deptSelect = document.getElementById('departmentSelect');
+  if (!deptSelect) return;
+
+  fetch('/api/member/find/departments')
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch departments');
+      return res.json();
+    })
+    .then(departments => {
+      deptSelect.innerHTML = '<option value="">Select Department</option>';
+      departments.forEach(dept => {
+        const option = document.createElement('option');
+        option.value = dept;
+        option.textContent = dept;
+        deptSelect.appendChild(option);
+      });
+    })
+    .catch(err => console.error('Error fetching departments:', err));
+}
+
+// -------------------------------
+// Fetch Artifact Types from Backend
+// -------------------------------
+function fetchArtifactTypes() {
+  const newSelect = document.getElementById('newArtifactType');
+  const existingSelect = document.getElementById('artifactType');
+
+  fetch('/api/artifact/find/all')
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch artifact types');
+      return res.json();
+    })
+    .then(types => {
+      const createOptions = (select) => {
+        if (!select) return;
+        select.innerHTML = '<option value="">Select Artifact Type</option>';
+        types.forEach(({ name, displayName }) => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = displayName;
+          select.appendChild(option);
+        });
+      };
+      createOptions(newSelect);
+      createOptions(existingSelect);
+    })
+    .catch(err => console.error('Error fetching artifact types:', err));
 }

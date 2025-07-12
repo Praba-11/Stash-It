@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>StashIt</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 <div class="container">
@@ -15,18 +15,14 @@
 
     <div class="content">
         <div class="member-type-selector">
-            <button class="member-type-btn active" data-type="new">
-                📝 New Member
-            </button>
-            <button class="member-type-btn" data-type="existing">
-                👥 Existing Member
-            </button>
+            <button class="member-type-btn active" data-type="new">📝 New Member</button>
+            <button class="member-type-btn" data-type="existing">👥 Existing Member</button>
         </div>
 
         <!-- New Member Form -->
         <div id="newMemberSection" class="form-section active">
             <form id="newMemberForm" enctype="multipart/form-data">
-                <!-- Member Details Section -->
+                <!-- Member Details -->
                 <div class="section-header">
                     <h3>👤 Member Details</h3>
                     <p>Enter the new member's personal information</p>
@@ -35,42 +31,35 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name *</label>
-                        <input type="text" id="firstName" name="firstName" required>
+                        <input type="text" id="firstName" name="firstName" required />
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name *</label>
-                        <input type="text" id="lastName" name="lastName" required>
+                        <input type="text" id="lastName" name="lastName" required />
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" required />
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone">
+                        <input type="tel" id="phone" name="phone" />
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="rollNo">Member ID *</label>
-                        <input type="text" id="rollNo" name="rollNo" placeholder="e.g., MEM001" required>
+                        <input type="text" id="rollNo" name="rollNo" placeholder="e.g., MEM001" required />
                     </div>
                     <div class="form-group">
-                        <label for="department">Department</label>
-                        <select id="department" name="department">
+                        <label for="departmentSelect">Department</label>
+                        <select id="departmentSelect" name="department">
                             <option value="">Select Department</option>
-                            <option value="IT">Information Technology</option>
-                            <option value="HR">Human Resources</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Operations">Operations</option>
-                            <option value="Sales">Sales</option>
-                            <option value="Research">Research & Development</option>
-                            <option value="Legal">Legal</option>
+                            <!-- Departments will be populated dynamically -->
                         </select>
                     </div>
                 </div>
@@ -78,14 +67,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="position">Position</label>
-                        <input type="text" id="position" name="position">
-                    </div>
-                    <div class="form-group">
-                        <!-- Empty space for better layout -->
+                        <input type="text" id="position" name="position" />
                     </div>
                 </div>
 
-                <!-- Artifact Details Section -->
+                <!-- Artifact Details -->
                 <div class="section-header">
                     <h3>📁 Artifact Details</h3>
                     <p>Provide information about the artifact being stored</p>
@@ -96,16 +82,6 @@
                         <label for="newArtifactType">Artifact Type *</label>
                         <select id="newArtifactType" name="artifactType" required>
                             <option value="">Select Artifact Type</option>
-                            <option value="Document">Document</option>
-                            <option value="Certificate">Certificate</option>
-                            <option value="License">License</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Report">Report</option>
-                            <option value="Policy">Policy</option>
-                            <option value="Procedure">Procedure</option>
-                            <option value="Form">Form</option>
-                            <option value="Template">Template</option>
-                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
@@ -113,22 +89,22 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="newArtifactTitle">Artifact Title *</label>
-                        <input type="text" id="newArtifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required>
+                        <input type="text" id="newArtifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required />
                     </div>
                     <div class="form-group">
                         <label for="newCreatedDate">Created Date *</label>
-                        <input type="date" id="newCreatedDate" name="createdDate" required>
+                        <input type="date" id="newCreatedDate" name="createdDate" required />
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="newExpiryDate">Expiry Date (Optional)</label>
-                        <input type="date" id="newExpiryDate" name="expiryDate">
+                        <input type="date" id="newExpiryDate" name="expiryDate" />
                     </div>
                     <div class="form-group">
                         <label for="newSource">Source/Issuer</label>
-                        <input type="text" id="newSource" name="source" placeholder="e.g., HR Department">
+                        <input type="text" id="newSource" name="source" placeholder="e.g., HR Department" />
                     </div>
                 </div>
 
@@ -143,7 +119,7 @@
                     <div class="form-group">
                         <label for="artifactFile">Artifact File *</label>
                         <div class="file-upload">
-                            <input type="file" id="artifactFile" name="artifact" class="file-input" required>
+                            <input type="file" id="artifactFile" name="artifact" class="file-input" required />
                             <label for="artifactFile" class="file-label">
                                 <div class="file-icon">📄</div>
                                 <div class="file-text">Click to upload artifact</div>
@@ -169,16 +145,13 @@
                     <div class="form-group">
                         <label for="memberSearch">Search Member *</label>
                         <div class="search-container">
-                            <input type="text" id="memberSearch" name="memberSearch" class="search-input" placeholder="Type member ID, name or email..." required>
+                            <input type="text" id="memberSearch" name="memberSearch" class="search-input" placeholder="Type member ID, name or email..." required />
                             <div class="search-icon">🔍</div>
-                            <div id="memberDropdown" class="dropdown">
-                                <!-- Dropdown items will be populated dynamically -->
-                            </div>
+                            <div id="memberDropdown" class="dropdown"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Selected Member Info (Hidden by default) -->
                 <div id="selectedMemberInfo" class="member-info" style="display: none;">
                     <h3>Selected Member</h3>
                     <div class="member-details">
@@ -195,16 +168,6 @@
                         <label for="artifactType">Artifact Type *</label>
                         <select id="artifactType" name="artifactType" required>
                             <option value="">Select Artifact Type</option>
-                            <option value="Document">Document</option>
-                            <option value="Certificate">Certificate</option>
-                            <option value="License">License</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Report">Report</option>
-                            <option value="Policy">Policy</option>
-                            <option value="Procedure">Procedure</option>
-                            <option value="Form">Form</option>
-                            <option value="Template">Template</option>
-                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
@@ -212,22 +175,22 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="artifactTitle">Artifact Title *</label>
-                        <input type="text" id="artifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required>
+                        <input type="text" id="artifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required />
                     </div>
                     <div class="form-group">
                         <label for="createdDate">Created Date *</label>
-                        <input type="date" id="createdDate" name="createdDate" required>
+                        <input type="date" id="createdDate" name="createdDate" required />
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="expiryDate">Expiry Date (Optional)</label>
-                        <input type="date" id="expiryDate" name="expiryDate">
+                        <input type="date" id="expiryDate" name="expiryDate" />
                     </div>
                     <div class="form-group">
                         <label for="source">Source/Issuer</label>
-                        <input type="text" id="source" name="source" placeholder="e.g., HR Department">
+                        <input type="text" id="source" name="source" placeholder="e.g., HR Department" />
                     </div>
                 </div>
 
@@ -242,7 +205,7 @@
                     <div class="form-group">
                         <label for="existingArtifactFile">Artifact File *</label>
                         <div class="file-upload">
-                            <input type="file" id="existingArtifactFile" name="artifact" class="file-input" required>
+                            <input type="file" id="existingArtifactFile" name="artifact" class="file-input" required />
                             <label for="existingArtifactFile" class="file-label">
                                 <div class="file-icon">📄</div>
                                 <div class="file-text">Click to upload artifact</div>
@@ -262,6 +225,7 @@
         </div>
     </div>
 </div>
+
 <script src="script.js"></script>
 </body>
 </html>
