@@ -1,11 +1,9 @@
-rootProject.name = 'Cloud-App'
-include 'Sub-Cloud-App'
+rootProject.name = 'Stash-It'
+include 'Stash-Manager'
 include 'commons'
 include 'commons:exceptions'
 findProject(':commons:exceptions')?.name = 'exceptions'
 include 'commons:exceptions:cloud'
 findProject(':commons:exceptions:cloud')?.name = 'cloud'
-
-
 include 'UI'
 include 'commons:exceptions:app'
