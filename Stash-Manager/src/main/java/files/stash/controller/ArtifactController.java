@@ -70,9 +70,21 @@ public class ArtifactController {
 
             Member member = memberService.findById(dto.getMemberId());
 
-            fileStorageCreator.create(member, file);
+            String filePath = String.format(
+                    "%s/%s",
+                    member.getDepartment(),
+                    member.getDesignation()
+            );
 
-            Artifact artifact = artifactBuilder.build(dto);
+            String blobName = String.format(
+                    "%s/%s",
+                    filePath,
+                    file.getOriginalFilename()
+            );
+
+            fileStorageCreator.create(blobName, file);
+
+            Artifact artifact = artifactBuilder.build(dto, filePath, containerName);
             artifactService.create(artifact);
 
             return new ResponseEntity<>(HttpStatus.CREATED);

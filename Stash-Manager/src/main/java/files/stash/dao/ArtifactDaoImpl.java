@@ -41,7 +41,7 @@ public class ArtifactDaoImpl implements ArtifactDao {
      * Retrieves an artifact by its unique ID.
      *
      * @param id the artifact ID
-     * @return the artifact entity, or null if not found
+     * @return the artifact entity, or {@code null} if not found
      * @throws DaoLayerException if a persistence error occurs during retrieval
      */
     @Override
@@ -69,10 +69,43 @@ public class ArtifactDaoImpl implements ArtifactDao {
     }
 
     /**
+     * Retrieves all artifact records by member ID from the database.
+     *
+     * @param memberId the ID of the member whose artifacts are to be retrieved
+     * @return a list of artifacts associated with the given member ID
+     * @throws DaoLayerException if a persistence error occurs during retrieval
+     */
+    @Override
+    public List<Artifact> findByMemberId(Long memberId) {
+        try {
+            return artifactMapper.findByMemberId(memberId);
+        } catch (PersistenceException exception) {
+            throw new DaoLayerException(exception.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves artifact records by member ID and file path from the database.
+     *
+     * @param memberId the ID of the member
+     * @param filePath the path of the artifact file
+     * @return a list of matching artifacts
+     * @throws DaoLayerException if a persistence error occurs during retrieval
+     */
+    @Override
+    public List<Artifact> findByMemberIdAndFilePath(Long memberId, String filePath) {
+        try {
+            return artifactMapper.findByMemberIdAndFilePath(memberId, filePath);
+        } catch (PersistenceException exception) {
+            throw new DaoLayerException(exception.getMessage());
+        }
+    }
+
+    /**
      * Updates an existing artifact record in the database.
      *
      * @param artifact the artifact entity with updated values
-     * @return the number of rows affected
+     * @return the number of rows affected (usually 1)
      * @throws DaoLayerException if a persistence error occurs during update
      */
     @Override
@@ -88,7 +121,7 @@ public class ArtifactDaoImpl implements ArtifactDao {
      * Deletes an artifact record by its ID.
      *
      * @param id the ID of the artifact to delete
-     * @return the number of rows affected
+     * @return the number of rows affected (usually 1)
      * @throws DaoLayerException if a persistence error occurs during deletion
      */
     @Override

@@ -17,6 +17,16 @@ import java.util.Date;
 public class Artifact {
 
     /**
+     * The unique identifier of the artifact.
+     */
+    private Long id;
+
+    /**
+     * The ID of the member associated with this artifact.
+     */
+    private Long memberId;
+
+    /**
      * The type of the artifact (e.g., CERTIFICATE, LICENSE, AWARD).
      */
     private ArtifactType type;
@@ -25,6 +35,16 @@ public class Artifact {
      * The title or name of the artifact.
      */
     private String title;
+
+    /**
+     * The file path where the artifact is stored.
+     */
+    private String filePath;
+
+    /**
+     * The container where the artifact is stored.
+     */
+    private String containerName;
 
     /**
      * The date the artifact was created or issued.

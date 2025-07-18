@@ -36,23 +36,17 @@ public class FileStorageCreator {
     }
 
     /**
-     * Uploads a file to Azure Blob Storage under a structured blob path based on member details.
+     * Uploads a file to Azure Blob Storage using a structured blob name.
      *
-     * <p>The blob path is formed as:
-     * {@code {department}/{designation}/{originalFilename}}.
+     * <p>The blob name typically follows the format:
+     * <pre>{@code {department}/{designation}/{originalFilename}}</pre>
+     * based on member-specific metadata.
      *
-     * @param member the member whose details determine the storage path
-     * @param file   the multipart file to be uploaded
-     * @throws ServiceLayerException if an I/O error or unexpected exception occurs during upload
+     * @param blobName the full blob path where the file will be stored
+     * @param file     the file to upload
+     * @throws ServiceLayerException if an I/O or unexpected error occurs during upload
      */
-    public void create(Member member, MultipartFile file) throws ServiceLayerException {
-
-        String blobName = String.format(
-                "%s/%s/%s",
-                member.getDepartment(),
-                member.getDesignation(),
-                file.getOriginalFilename()
-        );
+    public void create(String blobName, MultipartFile file) throws ServiceLayerException {
 
         try {
             fileStorageClient.createContainer(containerName);

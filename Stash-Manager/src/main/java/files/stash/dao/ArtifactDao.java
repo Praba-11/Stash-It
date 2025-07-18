@@ -1,50 +1,78 @@
 package files.stash.dao;
 
 import files.stash.domain.entity.Artifact;
+import service.DaoLayerException;
 
 import java.util.List;
 
 /**
- * Data access interface for Artifact entity operations.
+ * Data access interface for {@link Artifact} entity operations.
+ *
+ * <p>Provides methods to perform CRUD operations and custom queries
+ * related to artifact persistence.
  */
 public interface ArtifactDao {
 
     /**
-     * Persists a new artifact in the database.
+     * Persists a new {@link Artifact} in the database.
      *
      * @param artifact the artifact to be created
-     * @return number of rows affected
+     * @return number of rows affected (usually 1 if successful)
+     * @throws DaoLayerException if a persistence error occurs
      */
-    int create(Artifact artifact);
+    int create(Artifact artifact) throws DaoLayerException;
 
     /**
-     * Retrieves an artifact by its ID.
+     * Retrieves a specific {@link Artifact} by its ID.
      *
      * @param id the ID of the artifact
-     * @return the found artifact or null if not found
+     * @return the found artifact, or {@code null} if not found
+     * @throws DaoLayerException if a persistence error occurs during retrieval
      */
-    Artifact findById(Long id);
+    Artifact findById(Long id) throws DaoLayerException;
 
     /**
-     * Retrieves all artifacts from the database.
+     * Retrieves all {@link Artifact} records from the database.
      *
-     * @return list of artifacts
+     * @return a list of all artifacts
+     * @throws DaoLayerException if a persistence error occurs during retrieval
      */
-    List<Artifact> findAll();
+    List<Artifact> findAll() throws DaoLayerException;
 
     /**
-     * Updates an existing artifact in the database.
+     * Retrieves all {@link Artifact} records associated with a specific member ID.
      *
-     * @param artifact the artifact with updated fields
-     * @return number of rows affected
+     * @param memberId the ID of the member whose artifacts are to be retrieved
+     * @return a list of artifacts linked to the given member ID
+     * @throws DaoLayerException if a persistence error occurs during retrieval
      */
-    int update(Artifact artifact);
+    List<Artifact> findByMemberId(Long memberId) throws DaoLayerException;
 
     /**
-     * Deletes an artifact by its ID.
+     * Retrieves all {@link Artifact} records matching a given member ID and file path.
      *
-     * @param id the ID of the artifact to be deleted
-     * @return number of rows affected
+     * @param memberId the ID of the member
+     * @param filePath the file path of the artifact
+     * @return a list of artifacts that match both the member ID and file path
+     * @throws DaoLayerException if a persistence error occurs during retrieval
      */
-    int delete(Long id);
+    List<Artifact> findByMemberIdAndFilePath(Long memberId, String filePath) throws DaoLayerException;
+
+    /**
+     * Updates an existing {@link Artifact} record in the database.
+     *
+     * @param artifact the artifact entity with updated values
+     * @return number of rows affected (usually 1)
+     * @throws DaoLayerException if a persistence error occurs during the update
+     */
+    int update(Artifact artifact) throws DaoLayerException;
+
+    /**
+     * Deletes a specific {@link Artifact} record by its ID.
+     *
+     * @param id the ID of the artifact to delete
+     * @return number of rows affected (usually 1)
+     * @throws DaoLayerException if a persistence error occurs during the deletion
+     */
+    int delete(Long id) throws DaoLayerException;
 }

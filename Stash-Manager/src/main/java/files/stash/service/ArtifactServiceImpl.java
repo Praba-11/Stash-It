@@ -69,6 +69,39 @@ public class ArtifactServiceImpl implements ArtifactService {
     }
 
     /**
+     * Retrieves all artifact records by member ID in the system.
+     *
+     * @param memberId the ID of the member whose artifacts are to be retrieved
+     * @return list of all artifacts associated with the given member ID
+     * @throws ServiceLayerException if an error occurs during retrieval
+     */
+    @Override
+    public List<Artifact> findByMemberId(Long memberId) {
+        try {
+            return artifactDao.findByMemberId(memberId);
+        } catch (DaoLayerException exception) {
+            throw new ServiceLayerException(exception.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves all artifact records by member ID and file path in the system.
+     *
+     * @param memberId the ID of the member whose artifacts are to be retrieved
+     * @param filePath the file path of the artifact to filter by
+     * @return list of artifacts matching the given member ID and file path
+     * @throws ServiceLayerException if an error occurs during retrieval
+     */
+    @Override
+    public List<Artifact> findByMemberIdAndFilePath(Long memberId, String filePath) {
+        try {
+            return artifactDao.findByMemberIdAndFilePath(memberId, filePath);
+        } catch (DaoLayerException exception) {
+            throw new ServiceLayerException(exception.getMessage());
+        }
+    }
+
+    /**
      * Updates an existing artifact in the system.
      *
      * @param artifact the artifact with updated values
