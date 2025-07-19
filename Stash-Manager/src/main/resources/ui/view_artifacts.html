@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>StashIt - View Artifacts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e1e2f 0%, #12121c 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(245, 245, 245, 0.10);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f0f0f, #2c2c2c);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.85;
+        }
+
+        .back-button {
+            position: relative;
+            z-index: 1;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #1abc9c;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .search-section {
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #444;
+            border-radius: 12px;
+            font-size: 1.1em;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #1abc9c;
+            box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 1.3em;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #1e1e1e;
+            border: 2px solid #444;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            z-index: 100;
+            display: none;
+        }
+
+        .dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            transition: background 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background: #2a2a2a;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .member-info {
+            background: #2a2a2a;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 4px solid #1abc9c;
+            display: none;
+        }
+
+        .member-info.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .member-info h3 {
+            color: #f0f0f0;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .member-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            font-size: 0.95em;
+            color: #ccc;
+        }
+
+        .artifacts-section {
+            display: none;
+        }
+
+        .artifacts-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3a3a3a;
+        }
+
+        .section-header h3 {
+            color: #f0f0f0;
+            font-size: 1.4em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .artifacts-count {
+            background: #1abc9c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .artifacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .artifact-card {
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #3a3a3a;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artifact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .artifact-card:hover::before {
+            left: 100%;
+        }
+
+        .artifact-card:hover {
+            transform: translateY(-2px);
+            border-color: #1abc9c;
+            box-shadow: 0 8px 25px rgba(26, 188, 156, 0.2);
+        }
+
+        .artifact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .artifact-type {
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .artifact-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #f0f0f0;
+            margin-bottom: 10px;
+        }
+
+        .artifact-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #bbb;
+        }
+
+        .artifact-meta div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .artifact-description {
+            color: #ccc;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .artifact-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .download-btn {
+            background: #27ae60;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #2ecc71;
+        }
+
+        .view-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #5dade2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+
+        .empty-state p {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top: 4px solid #1abc9c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #145a32, #28b463);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #641e16, #c0392b);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .member-details {
+                grid-template-columns: 1fr;
+            }
+
+            .artifacts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .artifact-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>📁 View Artifacts</h1>
+                <p>Search and browse stored documents</p>
+            </div>
+            <a href="save_artifacts.html" class="back-button">← Back to Home</a>
+        </div>
+
+        <div class="content">
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" id="memberSearch" class="search-input" placeholder="Search by Member ID, Name, or Email...">
+                    <div class="search-icon">🔍</div>
+                    <div id="memberDropdown" class="dropdown"></div>
+                </div>
+            </div>
+
+            <div id="memberInfo" class="member-info">
+                <h3>👤 Selected Member</h3>
+                <div class="member-details">
+                    <div><strong>Member ID:</strong> <span id="memberRoll"></span></div>
+                    <div><strong>Name:</strong> <span id="memberName"></span></div>
+                    <div><strong>Email:</strong> <span id="memberEmail"></span></div>
+                    <div><strong>Department:</strong> <span id="memberDept"></span></div>
+                    <div><strong>Position:</strong> <span id="memberPos"></span></div>
+                    <div><strong>Phone:</strong> <span id="memberPhone"></span></div>
+                </div>
+            </div>
+
+            <div id="artifactsSection" class="artifacts-section">
+                <div class="section-header">
+                    <h3>📋 Artifacts</h3>
+                    <span id="artifactsCount" class="artifacts-count">0 artifacts</span>
+                </div>
+                <div id="artifactsGrid" class="artifacts-grid"></div>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <div class="empty-state-icon">🔍</div>
+                <h3>Search for a Member</h3>
+                <p>Enter a member ID, name, or email address to view their stored artifacts and documents.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let memberCache = [];
+        let selectedMember = null;
+        let memberArtifacts = [];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initMemberSearch();
+            fetchAllMembers();
+        });
+
+        // Fetch all members from the backend
+        function fetchAllMembers() {
+            fetch('/api/member/find/all')
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to fetch members');
+                    return res.json();
+                })
+                .then(data => {
+                    memberCache = data;
+                })
+                .catch(err => {
+                    console.error('Error fetching members:', err);
+                    showNotification('Failed to load members', 'error');
+                });
+        }
+
+        // Initialize member search functionality
+        function initMemberSearch() {
+            const input = document.getElementById('memberSearch');
+            const dropdown = document.getElementById('memberDropdown');
+
+            input.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                
+                if (query.length < 2) {
+                    dropdown.classList.remove('show');
+                    return;
+                }
+
+                if (memberCache.length === 0) {
+                    dropdown.innerHTML = '<div class="dropdown-item">Loading members...</div>';
+                    dropdown.classList.add('show');
+                    return;
+                }
+
+                const filtered = memberCache.filter(member =>
+                    member.rollNo.toLowerCase().includes(query) ||
+                    member.firstName.toLowerCase().includes(query) ||
+                    member.lastName.toLowerCase().includes(query) ||
+                    member.emailAddress.toLowerCase().includes(query)
+                );
+
+                dropdown.innerHTML = '';
+                
+                if (filtered.length > 0) {
+                    filtered.forEach(member => {
+                        const item = document.createElement('div');
+                        item.className = 'dropdown-item';
+                        item.innerHTML = `
+                            <div><strong>${member.rollNo} - ${member.firstName} ${member.lastName}</strong></div>
+                            <div style="font-size: 0.9em; color: #999; margin-top: 2px;">${member.emailAddress} • ${member.department || 'No Department'}</div>
+                        `;
+                        item.addEventListener('click', () => selectMember(member));
+                        dropdown.appendChild(item);
+                    });
+                    dropdown.classList.add('show');
+                } else {
+                    dropdown.innerHTML = '<div class="dropdown-item">No members found</div>';
+                    dropdown.classList.add('show');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container')) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        }
+
+        // Select a member and display their information
+        function selectMember(member) {
+            selectedMember = member;
+            const input = document.getElementById('memberSearch');
+            const dropdown = document.getElementById('memberDropdown');
+            
+            // Update search input
+            input.value = `${member.rollNo} - ${member.firstName} ${member.lastName}`;
+            dropdown.classList.remove('show');
+            
+            // Update member information display
+            document.getElementById('memberRoll').textContent = member.rollNo;
+            document.getElementById('memberName').textContent = `${

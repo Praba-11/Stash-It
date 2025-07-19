@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   StashIt
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container">
+   <div class="content">
+    <div class="member-type-selector">
+     <button class="member-type-btn active" data-type="new">
+      📝 New Member
+     </button>
+     <button class="member-type-btn" data-type="existing">
+      👥 Existing Member
+     </button>
+    </div>
+    <!-- New Member Form -->
+    <div class="form-section active" id="newMemberSection">
+     <form enctype="multipart/form-data" id="newMemberForm">
+      <!-- Member Details -->
+      <div class="section-header">
+       <h3>
+        👤 Member Details
+       </h3>
+       <p>
+        Enter the new member's personal information
+       </p>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="firstName">
+         First Name *
+        </label>
+        <input id="firstName" name="firstName" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label for="lastName">
+         Last Name *
+        </label>
+        <input id="lastName" name="lastName" required="" type="text"/>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="email">
+         Email Address *
+        </label>
+        <input id="email" name="email" required="" type="email"/>
+       </div>
+       <div class="form-group">
+        <label for="phone">
+         Phone Number
+        </label>
+        <input id="phone" name="phone" type="tel"/>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="rollNo">
+         Member ID *
+        </label>
+        <input id="rollNo" name="rollNo" placeholder="e.g., MEM001" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label for="departmentSelect">
+         Department
+        </label>
+        <select id="departmentSelect" name="department">
+         <option value="">
+          Select Department
+         </option>
+         <!-- Departments will be populated dynamically -->
+        </select>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="position">
+         Position
+        </label>
+        <input id="position" name="position" type="text"/>
+       </div>
+      </div>
+      <!-- Artifact Details -->
+      <div class="section-header">
+       <h3>
+        📁 Artifact Details
+       </h3>
+       <p>
+        Provide information about the artifact being stored
+       </p>
+      </div>
+      <div class="form-row single">
+       <div class="form-group">
+        <label for="newArtifactType">
+         Artifact Type *
+        </label>
+        <select id="newArtifactType" name="artifactType" required="">
+         <option value="">
+          Select Artifact Type
+         </option>
+        </select>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="newArtifactTitle">
+         Artifact Title *
+        </label>
+        <input id="newArtifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label for="newCreatedDate">
+         Created Date *
+        </label>
+        <input id="newCreatedDate" name="createdDate" required="" type="date"/>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="newExpiryDate">
+         Expiry Date (Optional)
+        </label>
+        <input id="newExpiryDate" name="expiryDate" type="date"/>
+       </div>
+       <div class="form-group">
+        <label for="newSource">
+         Source/Issuer
+        </label>
+        <input id="newSource" name="source" placeholder="e.g., HR Department" type="text"/>
+       </div>
+      </div>
+      <div class="form-row single">
+       <div class="form-group">
+        <label for="newArtifactDescription">
+         Artifact Description
+        </label>
+        <textarea id="newArtifactDescription" name="artifactDescription" placeholder="Brief description of the artifact..." rows="3"></textarea>
+       </div>
+      </div>
+      <div class="form-row single">
+       <div class="form-group">
+        <label for="artifactFile">
+         Artifact File *
+        </label>
+        <div class="file-upload">
+         <input class="file-input" id="artifactFile" name="artifact" required="" type="file"/>
+         <label class="file-label" for="artifactFile">
+          <div class="file-icon">
+           📄
+          </div>
+          <div class="file-text">
+           Click to upload artifact
+          </div>
+          <div class="file-subtext">
+           All file types accepted
+          </div>
+         </label>
+        </div>
+        <div class="file-preview" id="filePreview">
+         <strong>
+          Selected file:
+         </strong>
+         <span id="fileName">
+         </span>
+        </div>
+       </div>
+      </div>
+      <button class="submit-btn" type="submit">
+       Create Member &amp; Store Artifact
+      </button>
+     </form>
+    </div>
+    <!-- Existing Member Form -->
+    <div class="form-section" id="existingMemberSection">
+     <form enctype="multipart/form-data" id="existingMemberForm">
+      <div class="form-row single">
+       <div class="form-group">
+        <label for="memberSearch">
+         Search Member *
+        </label>
+        <div class="search-container">
+         <input class="search-input" id="memberSearch" name="memberSearch" placeholder="Type member ID, name or email..." required="" type="text"/>
+         <div class="search-icon">
+          🔍
+         </div>
+         <div class="dropdown" id="memberDropdown">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="member-info" id="selectedMemberInfo" style="display: none;">
+       <h3>
+        Selected Member
+       </h3>
+       <div class="member-details">
+        <div>
+         <strong>
+          Member ID:
+         </strong>
+         <span id="selectedMemberRoll">
+         </span>
+        </div>
+        <div>
+         <strong>
+          Name:
+         </strong>
+         <span id="selectedMemberName">
+         </span>
+        </div>
+        <div>
+         <strong>
+          Email:
+         </strong>
+         <span id="selectedMemberEmail">
+         </span>
+        </div>
+        <div>
+         <strong>
+          Department:
+         </strong>
+         <span id="selectedMemberDept">
+         </span>
+        </div>
+        <div>
+         <strong>
+          Position:
+         </strong>
+         <span id="selectedMemberPos">
+         </span>
+        </div>
+       </div>
+      </div>
+      <div class="form-row single">
+       <div class="form-group">
+        <label for="artifactType">
+         Artifact Type *
+        </label>
+        <select id="artifactType" name="artifactType" required="">
+         <option value="">
+          Select Artifact Type
+         </option>
+        </select>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="artifactTitle">
+         Artifact Title *
+        </label>
+        <input id="artifactTitle" name="artifactTitle" placeholder="e.g., Employment Contract" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label for="createdDate">
+         Created Date *
+        </label>
+        <input id="createdDate" name="createdDate" required="" type="date"/>
+       </div>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label for="expiryDate">
+         Expiry Date (Optional)
+        </label>
+        <input id="expiryDate" name="expiryDate" type="date"/>
+       </div>
+       <div class="form-group">
+        <label for="source">
+         Source/Issuer
+        </label>
+        <input id="source" name="source" placeholder="e.g., HR Department" type="text"/>
+       </div>
+      </div>
+      <div class="form-row single">
+       <div class="form-group">
+        <label for="artifactDescription">
+         Artifact Description
+        </label>
+        <textarea id="artifactDescription" name="artifactDescription" placeholder="Brief description of the artifact..." rows="3"></textarea>
+       </div>
+      </div>
+      <div class="form-row single">
+       <div class="form-group">
+        <label for="existingArtifactFile">
+         Artifact File *
+        </label>
+        <div class="file-upload">
+         <input class="file-input" id="existingArtifactFile" name="artifact" required="" type="file"/>
+         <label class="file-label" for="existingArtifactFile">
+          <div class="file-icon">
+           📄
+          </div>
+          <div class="file-text">
+           Click to upload artifact
+          </div>
+          <div class="file-subtext">
+           All file types accepted
+          </div>
+         </label>
+        </div>
+        <div class="file-preview" id="existingFilePreview">
+         <strong>
+          Selected file:
+         </strong>
+         <span id="existingFileName">
+         </span>
+        </div>
+       </div>
+      </div>
+      <button class="submit-btn" type="submit">
+       Store Artifact for Member
+      </button>
+     </form>
+    </div>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>
