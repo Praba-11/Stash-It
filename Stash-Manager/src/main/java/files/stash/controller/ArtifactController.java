@@ -84,7 +84,7 @@ public class ArtifactController {
 
             fileStorageCreator.create(blobName, file);
 
-            Artifact artifact = artifactBuilder.build(dto, filePath, containerName);
+            Artifact artifact = artifactBuilder.build(dto, filePath, containerName, file.getOriginalFilename());
             artifactService.create(artifact);
 
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -145,8 +145,15 @@ public class ArtifactController {
      * @throws ServiceLayerException if an error occurs during retrieval
      */
     @GetMapping("/member/{memberId}")
-    public List<Artifact> getArtifactsByMemberId(@PathVariable Long memberId) throws ServiceLayerException {
-        return artifactService.findByMemberId(memberId);
+    public ResponseEntity<?> getArtifactsByMemberId(@PathVariable Long memberId) {
+        try {
+            List<Artifact> artifacts = artifactService.findByMemberId(memberId);
+            return ResponseEntity.ok(artifacts);
+        } catch (ServiceLayerException e) {
+            log.error("Error fetching artifacts by memberId {}: {}", memberId, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error retrieving artifacts: " + e.getMessage());
+        }
     }
 
     /**
@@ -158,9 +165,15 @@ public class ArtifactController {
      * @throws ServiceLayerException if an error occurs during retrieval
      */
     @GetMapping("/member/{memberId}/file")
-    public List<Artifact> getArtifactsByMemberIdAndFilePath(
-            @PathVariable Long memberId,
-            @RequestParam String filePath) throws ServiceLayerException {
-        return artifactService.findByMemberIdAndFilePath(memberId, filePath);
+    public ResponseEntity<?> getArtifactsByMemberIdAndFilePath(@PathVariable Long memberId,
+                                                               @RequestParam String filePath) {
+        try {
+            List<Artifact> artifacts = artifactService.findByMemberIdAndFilePath(memberId, filePath);
+            return ResponseEntity.ok(artifacts);
+        } catch (ServiceLayerException e) {
+            log.error("Error fetching artifacts by memberId {} and filePath '{}': {}", memberId, filePath, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error retrieving filtered artifacts: " + e.getMessage());
+        }
     }
 }

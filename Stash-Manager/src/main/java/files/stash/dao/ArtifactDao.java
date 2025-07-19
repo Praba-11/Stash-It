@@ -23,6 +23,19 @@ public interface ArtifactDao {
     int create(Artifact artifact) throws DaoLayerException;
 
     /**
+     * Retrieves a specific {@link Artifact} using a composite key of member ID, container name, file path, and blob name.
+     *
+     * @param memberId the ID of the member who owns the artifact
+     * @param containerName the Azure container name where the artifact is stored
+     * @param filePath the relative path used to store the blob (e.g., "HR/Manager")
+     * @param blobName the name of the blob file (e.g., "resume.pdf")
+     * @return the found artifact, or {@code null} if not found
+     * @throws DaoLayerException if a persistence error occurs during retrieval
+     */
+    Artifact find(Long memberId, String containerName, String filePath, String blobName) throws DaoLayerException;
+
+
+    /**
      * Retrieves a specific {@link Artifact} by its ID.
      *
      * @param id the ID of the artifact

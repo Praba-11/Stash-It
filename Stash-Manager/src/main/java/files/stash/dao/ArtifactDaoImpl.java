@@ -38,6 +38,26 @@ public class ArtifactDaoImpl implements ArtifactDao {
     }
 
     /**
+     * Retrieves an artifact using a composite key: member ID, container name, file path, and blob name.
+     *
+     * @param memberId      the member's ID
+     * @param containerName the storage container name
+     * @param filePath      the blob file path
+     * @param blobName      the name of the blob file
+     * @return the artifact entity, or {@code null} if not found
+     * @throws DaoLayerException if a persistence error occurs during retrieval
+     */
+    @Override
+    public Artifact find(Long memberId, String containerName, String filePath, String blobName) {
+        try {
+            return artifactMapper.find(memberId, containerName, filePath, blobName);
+        } catch (PersistenceException exception) {
+            throw new DaoLayerException("Error fetching artifact by composite key: " + exception.getMessage(), exception);
+        }
+    }
+
+
+    /**
      * Retrieves an artifact by its unique ID.
      *
      * @param id the artifact ID

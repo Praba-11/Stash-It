@@ -1,11 +1,14 @@
 package files.stash.component.azure.storage.blob;
 
+import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.models.BlobStorageException;
 import commons.exceptions.cloud.azure.AzureBlobStorageException;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -74,4 +77,37 @@ public class AzureFileStorageClient implements FileStorageClient {
             throw new AzureBlobStorageException(exception.getMessage(), exception);
         }
     }
+
+    /**
+     * Downloads a blob from Azure Blob Storage and returns it as a File.
+     *
+     * @param containerName the name of the blob container
+     * @param blobPath the path or folder structure within the container (e.g., "dept/designation")
+     * @param fileName the name of the blob (e.g., "resume.pdf")
+     * @return a File object pointing to the downloaded blob
+     * @throws AzureBlobStorageException if any error occurs during blob retrieval
+     */
+    public File downloadBlobAsFile(String containerName, String blobPath, String fileName) {
+        try {
+            // Construct full blob name from path and filename
+            String fullBlobName = blobPath.endsWith("/") ? blobPath + fileName : blobPath + "/" + fileName;
+
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+            BlobClient blobClient = containerClient.getBlobClient(fullBlobName);
+
+            if (!blobClient.exists()) {
+                throw new AzureBlobStorageException("Blob not found: " + fullBlobName);
+            }
+
+            // Create a temporary file to store the downloaded blob
+            File tempFile = File.createTempFile("downloaded-", "-" + fileName);
+            blobClient.downloadToFile(tempFile.getAbsolutePath(), true); // true = overwrite if exists
+
+            return tempFile;
+
+        } catch (IOException | BlobStorageException e) {
+            throw new AzureBlobStorageException("Failed to download blob: " + fileName, e);
+        }
+    }
+
 }

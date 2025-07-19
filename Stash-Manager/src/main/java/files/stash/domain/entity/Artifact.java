@@ -27,6 +27,11 @@ public class Artifact {
     private Long memberId;
 
     /**
+     * The file name.
+     */
+    private String name;
+
+    /**
      * The type of the artifact (e.g., CERTIFICATE, LICENSE, AWARD).
      */
     private ArtifactType type;

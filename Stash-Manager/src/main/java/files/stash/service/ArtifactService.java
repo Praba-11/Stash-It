@@ -22,6 +22,19 @@ public interface ArtifactService {
     int create(Artifact artifact) throws ServiceLayerException;
 
     /**
+     * Retrieves an artifact using a composite key: member ID, container name, file path, and blob name.
+     *
+     * @param memberId the ID of the member
+     * @param containerName the container name where the blob is stored
+     * @param filePath the path within the container
+     * @param blobName the name of the blob file
+     * @return the artifact if found, or {@code null} otherwise
+     * @throws ServiceLayerException if an error occurs during retrieval
+     */
+    Artifact find(Long memberId, String containerName, String filePath, String blobName) throws ServiceLayerException;
+
+
+    /**
      * Retrieves a specific {@link Artifact} by its unique identifier.
      *
      * @param id the ID of the artifact

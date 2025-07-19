@@ -18,10 +18,24 @@ public interface ArtifactMapper {
      * @param artifact the artifact entity to insert
      * @return the number of rows affected (typically 1)
      */
-    @Insert("INSERT INTO artifact (member_id, title, type, file_path, container_name, issued_on, expired_on, organization, description) " +
-            "VALUES (#{memberId}, #{title}, #{type}, #{filePath}, #{containerName}, #{issuedOn}, #{expiredOn}, #{organization}, #{description})")
+    @Insert("INSERT INTO artifact (member_id, name, title, type, file_path, container_name, issued_on, expired_on, organization, description) " +
+            "VALUES (#{memberId}, #{name}, #{title}, #{type}, #{filePath}, #{containerName}, #{issuedOn}, #{expiredOn}, #{organization}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int create(Artifact artifact);
+
+    /**
+     * Retrieves an artifact by member ID, container name, file path, and blob name.
+     *
+     * @param memberId      the ID of the associated member
+     * @param containerName the Azure storage container name
+     * @param filePath      the structured file path (e.g., "HR/Manager")
+     * @param blobName      the name of the blob file (e.g., "resume.pdf")
+     * @return the artifact matching the specified parameters, or null if not found
+     */
+    @Select("SELECT id, title, type, issued_on, expired_on, organization, description, member_id, container_name, file_path, blob_name FROM artifact " +
+            "WHERE member_id = #{memberId} AND container_name = #{containerName} AND file_path = #{filePath} AND blob_name = #{blobName}")
+    Artifact find(Long memberId, String containerName, String filePath, String blobName);
+
 
     /**
      * Retrieves an artifact by its unique ID.

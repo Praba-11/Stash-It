@@ -38,6 +38,26 @@ public class ArtifactServiceImpl implements ArtifactService {
     }
 
     /**
+     * Retrieves an artifact using a composite key.
+     *
+     * @param memberId the member ID
+     * @param containerName the container name
+     * @param filePath the blob file path
+     * @param blobName the blob file name
+     * @return the matching artifact, or {@code null} if not found
+     * @throws ServiceLayerException if a DAO error occurs
+     */
+    @Override
+    public Artifact find(Long memberId, String containerName, String filePath, String blobName) {
+        try {
+            return artifactDao.find(memberId, containerName, filePath, blobName);
+        } catch (DaoLayerException exception) {
+            throw new ServiceLayerException("Failed to retrieve artifact by composite key: " + exception.getMessage(), exception);
+        }
+    }
+
+
+    /**
      * Retrieves an artifact by its ID.
      *
      * @param id the ID of the artifact

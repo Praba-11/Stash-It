@@ -40,9 +40,10 @@ public class ArtifactBuilder {
      * @return a populated {@link Artifact} entity.
      * @throws IllegalArgumentException if the artifact type provided is not a valid enum constant.
      */
-    public Artifact build(ArtifactUploadRequestDto artifactUploadRequestDto, String filePath, String containerName) {
+    public Artifact build(ArtifactUploadRequestDto artifactUploadRequestDto, String filePath, String containerName, String fileName) {
         Artifact artifact = new Artifact();
 
+        artifact.setName(fileName);
         artifact.setType(ArtifactType.valueOf(artifactUploadRequestDto.getArtifactType()));
         artifact.setTitle(artifactUploadRequestDto.getArtifactTitle());
         artifact.setIssuer(artifactUploadRequestDto.getIssuer());

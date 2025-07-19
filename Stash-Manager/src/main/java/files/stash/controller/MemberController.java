@@ -64,7 +64,19 @@ public class MemberController {
             Member member = memberBuilder.build(dto);
             memberService.create(member);
 
-            fileStorageCreator.create(member, file);
+            String filePath = String.format(
+                    "%s/%s",
+                    member.getDepartment(),
+                    member.getDesignation()
+            );
+
+            String blobName = String.format(
+                    "%s/%s",
+                    filePath,
+                    file.getOriginalFilename()
+            );
+
+            fileStorageCreator.create(blobName, file);
 
             Artifact artifact = artifactBuilder.build(dto);
             artifactService.create(artifact);
