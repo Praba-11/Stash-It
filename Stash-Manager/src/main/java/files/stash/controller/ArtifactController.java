@@ -136,4 +136,31 @@ public class ArtifactController {
 
         return ResponseEntity.ok(types);
     }
+
+    /**
+     * Retrieves all artifacts for a specific member.
+     *
+     * @param memberId the ID of the member whose artifacts are to be retrieved
+     * @return list of artifacts for the specified member
+     * @throws ServiceLayerException if an error occurs during retrieval
+     */
+    @GetMapping("/member/{memberId}")
+    public List<Artifact> getArtifactsByMemberId(@PathVariable Long memberId) throws ServiceLayerException {
+        return artifactService.findByMemberId(memberId);
+    }
+
+    /**
+     * Retrieves artifacts for a specific member filtered by file path.
+     *
+     * @param memberId the ID of the member whose artifacts are to be retrieved
+     * @param filePath the file path to filter artifacts by (passed as query parameter)
+     * @return list of artifacts matching both member ID and file path
+     * @throws ServiceLayerException if an error occurs during retrieval
+     */
+    @GetMapping("/member/{memberId}/file")
+    public List<Artifact> getArtifactsByMemberIdAndFilePath(
+            @PathVariable Long memberId,
+            @RequestParam String filePath) throws ServiceLayerException {
+        return artifactService.findByMemberIdAndFilePath(memberId, filePath);
+    }
 }
