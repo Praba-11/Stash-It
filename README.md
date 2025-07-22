@@ -4,6 +4,8 @@
 
 *Don't just store it, STASH it.*
 
+<img width="588" height="223" alt="Screenshot from 2025-07-20 11-25-54" src="https://github.com/user-attachments/assets/00bcb282-7443-4408-91ea-f45cd2df178d" />
+
 **A simple file managing system that stores and retrieves files for members**
 
 </div>
