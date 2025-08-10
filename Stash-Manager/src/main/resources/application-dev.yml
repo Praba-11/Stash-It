@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+  
+  cloud:
+    azure:
+      storage:
+        container-name: stashit-dev
+        connection-string: ${AZURE_STORAGE_ACCOUNT_CONNECTION_STRING:}
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stashit_dev
+    username: postgres
+    password: postgres
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 5
+
+server:
+  port: 9081
+  servlet:
+    context-path: /aps
+
+logging:
+  level:
+    files.stash: DEBUG
+    org.springframework.web: DEBUG
+    org.mybatis: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

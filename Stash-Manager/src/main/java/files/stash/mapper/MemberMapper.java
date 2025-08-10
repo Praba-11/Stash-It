@@ -19,8 +19,8 @@ public interface MemberMapper {
      * @param member the member entity to insert
      * @return the number of rows affected (usually 1)
      */
-    @Insert("INSERT INTO member (roll_no, first_name, last_name, full_name, email, department, designation, phone_number) " +
-            "VALUES (#{rollNo}, #{firstName}, #{lastName}, #{fullName}, #{email}, #{department}, #{designation}, #{phoneNumber})")
+    @Insert("INSERT INTO member (roll_no, first_name, last_name, full_name, email_address, department, designation, phone_number) " +
+            "VALUES (#{rollNo}, #{firstName}, #{lastName}, #{fullName}, #{emailAddress}, #{department}, #{designation}, #{phoneNumber})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int create(Member member);
 
@@ -36,7 +36,7 @@ public interface MemberMapper {
     List<Member> findByNameOrRollNo(@Param("chars") String chars);
 
     /**
-     * Selects a member by their unique ID.
+     * Selects a member by their unique identifier.
      *
      * <p>This performs an exact match on the {@code id} column.
      *
@@ -53,7 +53,7 @@ public interface MemberMapper {
      * @return the number of rows affected (usually 1)
      */
     @Update("UPDATE member SET roll_no = #{rollNo}, first_name = #{firstName}, last_name = #{lastName}, full_name = #{fullName}, " +
-            "email = #{email}, department = #{department}, designation = #{designation}, phone_number = #{phoneNumber} WHERE id = #{id}")
+            "email_address = #{emailAddress}, department = #{department}, designation = #{designation}, phone_number = #{phoneNumber} WHERE id = #{id}")
     int update(Member member);
 
     /**

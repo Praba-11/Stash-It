@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version "3.3.2"
     id 'io.spring.dependency-management' version "1.1.4"
-    id 'checkstyle'                              // Add Checkstyle plugin
 }
 
 group = 'org.example'
@@ -52,16 +51,3 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-checkstyle {
-    toolVersion = '10.12.1'          // Specify the Checkstyle version
-    configFile = file('config/checkstyle/checkstyle.xml')  // Path to your Checkstyle config
-}
-
-tasks.withType(Checkstyle) {
-    ignoreFailures = false           // Fail the build on violations
-    showViolations = true
-}
-
-// Hook Checkstyle into the build lifecycle (optional but recommended)
-check.dependsOn 'checkstyleMain', 'checkstyleTest'

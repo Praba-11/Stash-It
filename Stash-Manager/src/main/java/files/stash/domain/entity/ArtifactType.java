@@ -58,6 +58,25 @@ public enum ArtifactType {
     }
 
     /**
+     * Converts a display name back to the corresponding ArtifactType enum constant.
+     *
+     * @param displayName the display name to convert
+     * @return the corresponding ArtifactType enum constant, or null if not found
+     */
+    public static ArtifactType fromDisplayName(String displayName) {
+        if (displayName == null) {
+            return null;
+        }
+        
+        for (ArtifactType type : ArtifactType.values()) {
+            if (type.displayName.equals(displayName)) {
+                return type;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Returns the display name when the enum is printed or logged.
      *
      * @return the display name of the artifact type.

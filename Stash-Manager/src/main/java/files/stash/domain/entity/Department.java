@@ -46,6 +46,25 @@ public enum Department {
     }
 
     /**
+     * Converts a display name back to the corresponding Department enum constant.
+     *
+     * @param displayName the display name to convert
+     * @return the corresponding Department enum constant, or null if not found
+     */
+    public static Department fromDisplayName(String displayName) {
+        if (displayName == null) {
+            return null;
+        }
+        
+        for (Department dept : Department.values()) {
+            if (dept.displayName.equals(displayName)) {
+                return dept;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Returns the display name when the enum constant is printed.
      *
      * @return the display name.

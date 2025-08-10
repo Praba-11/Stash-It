@@ -18,8 +18,8 @@ public interface ArtifactMapper {
      * @param artifact the artifact entity to insert
      * @return the number of rows affected (typically 1)
      */
-    @Insert("INSERT INTO artifact (member_id, name, title, type, file_path, container_name, issued_on, expired_on, organization, description) " +
-            "VALUES (#{memberId}, #{name}, #{title}, #{type}, #{filePath}, #{containerName}, #{issuedOn}, #{expiredOn}, #{organization}, #{description})")
+    @Insert("INSERT INTO artifact (member_id, name, title, type, file_path, container_name, created_date, expiry_date, issuer, description) " +
+            "VALUES (#{memberId}, #{name}, #{title}, #{type}, #{filePath}, #{containerName}, #{createdDate}, #{expiryDate}, #{issuer}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int create(Artifact artifact);
 
@@ -32,8 +32,8 @@ public interface ArtifactMapper {
      * @param blobName      the name of the blob file (e.g., "resume.pdf")
      * @return the artifact matching the specified parameters, or null if not found
      */
-    @Select("SELECT id, title, type, issued_on, expired_on, organization, description, member_id, container_name, file_path, blob_name FROM artifact " +
-            "WHERE member_id = #{memberId} AND container_name = #{containerName} AND file_path = #{filePath} AND blob_name = #{blobName}")
+    @Select("SELECT id, member_id, name, title, type, file_path, container_name, created_date, expiry_date, issuer, description FROM artifact " +
+            "WHERE member_id = #{memberId} AND container_name = #{containerName} AND file_path = #{filePath} AND name = #{blobName}")
     Artifact find(Long memberId, String containerName, String filePath, String blobName);
 
 
@@ -43,7 +43,7 @@ public interface ArtifactMapper {
      * @param id the unique identifier of the artifact
      * @return the artifact entity matching the given ID, or null if not found
      */
-    @Select("SELECT id, title, type, issued_on, expired_on, organization, description FROM artifact WHERE id = #{id}")
+    @Select("SELECT id, member_id, name, title, type, file_path, container_name, created_date, expiry_date, issuer, description FROM artifact WHERE id = #{id}")
     Artifact findById(Long id);
 
     /**
@@ -51,7 +51,7 @@ public interface ArtifactMapper {
      *
      * @return a list of all artifact entities
      */
-    @Select("SELECT id, title, type, issued_on, expired_on, organization, description FROM artifact")
+    @Select("SELECT id, member_id, name, title, type, file_path, container_name, created_date, expiry_date, issuer, description FROM artifact")
     List<Artifact> findAll();
 
     /**
@@ -60,7 +60,7 @@ public interface ArtifactMapper {
      * @param memberId the ID of the member whose artifacts are to be retrieved
      * @return a list of artifact entities linked to the given member ID
      */
-    @Select("SELECT id, title, type, issued_on, expired_on, organization, description FROM artifact WHERE member_id = #{memberId}")
+    @Select("SELECT id, member_id, name, title, type, file_path, container_name, created_date, expiry_date, issuer, description FROM artifact WHERE member_id = #{memberId}")
     List<Artifact> findByMemberId(Long memberId);
 
     /**
@@ -70,7 +70,7 @@ public interface ArtifactMapper {
      * @param filePath the path of the artifact file
      * @return a list of artifacts matching the given member ID and file path
      */
-    @Select("SELECT id, title, type, issued_on, expired_on, organization, description, file_path " +
+    @Select("SELECT id, member_id, name, title, type, file_path, container_name, created_date, expiry_date, issuer, description " +
             "FROM artifact WHERE member_id = #{memberId} AND file_path = #{filePath}")
     List<Artifact> findByMemberIdAndFilePath(@Param("memberId") Long memberId, @Param("filePath") String filePath);
 
@@ -81,8 +81,8 @@ public interface ArtifactMapper {
      * @param artifact the artifact entity with updated fields
      * @return the number of rows affected (typically 1)
      */
-    @Update("UPDATE artifact SET title = #{title}, type = #{type}, issued_on = #{issuedOn}, expired_on = #{expiredOn}, " +
-            "organization = #{organization}, description = #{description} WHERE id = #{id}")
+    @Update("UPDATE artifact SET title = #{title}, type = #{type}, created_date = #{createdDate}, expiry_date = #{expiryDate}, " +
+            "issuer = #{issuer}, description = #{description} WHERE id = #{id}")
     int update(Artifact artifact);
 
     /**

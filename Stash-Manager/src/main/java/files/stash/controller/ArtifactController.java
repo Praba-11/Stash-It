@@ -68,7 +68,12 @@ public class ArtifactController {
         try {
             log.info("Artifact create initiated. Artifact name: {}", dto.getArtifactTitle());
 
+            // Validate member exists before proceeding
             Member member = memberService.findById(dto.getMemberId());
+            if (member == null) {
+                log.error("Member not found with ID: {}", dto.getMemberId());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
             String filePath = String.format(
                     "%s/%s",
