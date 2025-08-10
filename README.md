@@ -1,12 +1,6 @@
 # StashIt
-
-<div align="center">
-
-*Don't just store it, STASH it.*
-
-<img width="588" height="223" alt="Screenshot" src="https://github.com/user-attachments/assets/00bcb282-7443-4408-91ea-f45cd2df178d" />
-
 **A simple file managing system for member-specific storage and retrieval.**
+*Don't just store it, STASH it.*
 
 </div>
 
